@@ -21,5 +21,8 @@ export { ErrorText } from './error-text';
 export { RequiredSymbol } from './required-symbol';
 export { ClearButton } from './clear-button';
 export { AdressInput } from './address-input';
+export { ProfileButton } from './profile-button';
+export { ProfileForm } from './profile-form';
 export * from './checkout';
 export * from './form';
+export * from './modals';

@@ -18,8 +18,6 @@ import { useCart } from '@/shared/hooks/use-cart';
 import toast from 'react-hot-toast';
 import React from 'react';
 //import { useSession } from 'next-auth/react';
-import { Api } from '@/shared/services/api-client';
-import { updateItemQuantity } from '@/shared/services/cart';
 
 export default function CheckoutPage() {
   const [submitting, setSubmitting] = React.useState(false);

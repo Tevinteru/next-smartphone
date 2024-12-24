@@ -32,7 +32,7 @@ export const CheckoutAddressForm: React.FC<Props> = ({ className }) => {
           name="comment"
           className="text-base"
           placeholder="Комментарий к заказу"
-          rows={5}
+          rows={3}
         />
       </div>
     </WhiteBlock>

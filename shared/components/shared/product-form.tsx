@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/shared/store/cart";
 import { ProductWithRelations } from "@/@types/prisma";

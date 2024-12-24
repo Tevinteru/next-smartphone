@@ -14,7 +14,6 @@ const config: Config = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
-			grayBackground: '#FF0000', // Добавляем кастомный серый цвет
 
   			card: {
   				DEFAULT: 'hsl(var(--card))',

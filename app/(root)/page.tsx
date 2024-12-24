@@ -1,6 +1,7 @@
 import { Container, Filters } from "@/shared/components/shared";
 import { ProductsList } from "@/shared/components/shared/products-list";
 import { findProducts, GetSearchParams } from "@/shared/lib/find-products";
+import { Suspense } from "react";
 
 export default async function Home({ searchParams }: { searchParams: GetSearchParams}) {
   const products = await findProducts(searchParams);
@@ -11,7 +12,9 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
         <div className="flex gap-[80px]">
           {/* Фильтраиця */}
           <div className="w-[250px]">
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
           {/* Список товаров */}
           <div className="flex-1">
