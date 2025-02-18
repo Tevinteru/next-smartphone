@@ -53,14 +53,22 @@ model Product {
   updatedAt DateTime @updatedAt
 }
 
+model CharacteristicCategory {
+  id               Int                   @id @default(autoincrement())
+  name             String
+  characteristics  SmartphoneCharacteristic[]
+}
+
 model SmartphoneCharacteristic {
   id             Int    @id @default(autoincrement())
   smartphoneId   Int
   characteristic String
   value          String
 
-  smartphone Product @relation(fields: [smartphoneId], references: [id])
-
+  smartphone       Product @relation(fields: [smartphoneId], references: [id])
+  categoryId       Int                   
+  category         CharacteristicCategory @relation(fields: [categoryId], references: [id])
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

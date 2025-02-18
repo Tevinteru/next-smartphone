@@ -10,6 +10,7 @@ export interface GetSearchParams {
   priceFrom?: string; // Минимальная цена
   priceTo?: string; // Максимальная цена
   priceRange?: string; // Диапазон цен
+  sort?: string;
   limit?: string;
   page?: string;
 }
@@ -49,7 +50,15 @@ export const findProducts = async (params: GetSearchParams) => {
   if (params.priceRange && priceRanges[params.priceRange as PriceRangeKey]) {
     priceFilter = priceRanges[params.priceRange as PriceRangeKey];
   }
+  let orderBy: { name?: "asc" | "desc"; price?: "asc" | "desc" } = { name: "asc" }; // По умолчанию сортируем по имени
 
+  if (params.sort === "name") {
+    orderBy = { name: "asc" };
+  } else if (params.sort === "price_asc") {
+    orderBy = { price: "asc" };
+  } else if (params.sort === "price_desc") {
+    orderBy = { price: "desc" };
+  }
   // Основной запрос
   const result = await prisma.product
     .paginate({
@@ -86,9 +95,7 @@ export const findProducts = async (params: GetSearchParams) => {
       brand: true,
       smartphoneCharacteristics: true,
     },
-    orderBy: {
-      [params.sortBy || 'price']: 'asc', // Сортировка по цене или названию
-    },
+    orderBy,
   })
   .withPages({
     page,

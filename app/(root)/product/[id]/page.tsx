@@ -4,12 +4,26 @@ import { notFound } from "next/navigation";
 import { ProductForm } from "@/shared/components/shared/product-form";
 
 
-export default async function ProductPage({ params: { id } }: { params: { id: string } }) {
-  const idAwait = await id;
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  // Ожидаем params
+  const { id } = await params;
+
+  // Преобразуем id в число
+  const productId = Number(id);
+
+  // Проверка на валидность id
+  if (isNaN(productId)) {
+    return notFound();  // Если id невалидный, показываем 404
+  }
+
   const product = await prisma.product.findFirst({
-    where: { id: Number(idAwait) },
+    where: { id: productId },
     include:{
-      smartphoneCharacteristics: true,
+      smartphoneCharacteristics:  {
+        include: {
+          category: true,
+        },
+      },
     }
    
   });
@@ -19,7 +33,7 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
   
   return (
     <Container className="flex flex-col pt-10">
-    <ProductForm product={product} />
-  </Container>
+      <ProductForm product={product} />
+    </Container>
   );
 }

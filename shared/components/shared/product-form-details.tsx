@@ -14,7 +14,7 @@ interface Props {
   price: number;
   loading?: boolean;
   onSubmit?: VoidFunction;
-  characteristics: SmartphoneCharacteristic[],
+  characteristics: (SmartphoneCharacteristic & { category: { name: string } })[];
   className?: string;
 }
 
@@ -67,7 +67,7 @@ export const ProductFormDetails: React.FC<Props> = ({
 
       {/* Список характеристик */}
       <div className="w-full bg-gray-50 p-5 rounded-lg shadow-sm bg-white">
-        <h2 className="text-lg font-extrabold mb-4">
+        <h2 className="text-2xl font-extrabold mb-4">
           Характеристики
         </h2>
         <CharacteristicsList characteristics={characteristics}/>

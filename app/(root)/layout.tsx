@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Next Smartphone | Главная',
+  title: 'Next Smartphone',
 };
 
 export default function HomeLayout({

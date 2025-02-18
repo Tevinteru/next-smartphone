@@ -42,6 +42,7 @@ export const ProductForm: React.FC<Props> = ({
       loading={loading}
       description={product.description}
       price={product.price}
+      
     />
   );
 };

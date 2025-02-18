@@ -1,3 +1,11 @@
-import { Product, SmartphoneCharacteristic } from '@prisma/client';
+import { Prisma  } from '@prisma/client';
 
-export type ProductWithRelations = Product & {smartphoneCharacteristics: SmartphoneCharacteristic[]};
+export type ProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    smartphoneCharacteristics: {
+      include: {
+        category: true;
+      };
+    };
+  };
+}>;

@@ -1,4 +1,5 @@
 import { Container, Header } from "@/shared/components/shared";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Смартфоны | Корзина",
@@ -13,7 +14,9 @@ export default function CartLayout({
   return (
     <main className="min-h-screen bg-[#F4F1EE]">
       <Container>
+        <Suspense>
         <Header className="border-b-gray-200" hasCart={false} />
+        </Suspense>
         {children}
       </Container>
     </main>

@@ -23,41 +23,78 @@ export const Pagination: React.FC<Props> = ({ className, currentPage = 1, pageCo
     newSearchParams.set('page', page.toString());
     router.push(`${pathname}?${newSearchParams.toString()}`);
   };
+   // Логика для отображения 10 страниц
+  const pageRange = 8;
+  let startPage = Math.max(currentPage - Math.floor(pageRange / 2), 1); // Начало диапазона
+  let endPage = startPage + pageRange - 1; // Конец диапазона
+
+  // Если endPage больше, чем total pages, сдвигаем диапазон влево
+  if (endPage > pageCount) {
+    endPage = pageCount;
+    startPage = Math.max(endPage - pageRange + 1, 1);
+  }
+
+  const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
-      {/* Кнопка "Назад" */}
-      <Button
-        className="p-0 w-10 disabled:bg-white disabled:opacity-20"
-        variant="outline"
-        disabled={currentPage === 1}
-        onClick={() => handlePageChange(currentPage - 1)}
-      >
-        <ChevronLeft className="h-4 w-4" />
-      </Button>
+    {/* Кнопка "Назад" */}
+    <Button
+      className="p-0 w-10 disabled:bg-white disabled:opacity-20"
+      variant="outline"
+      disabled={currentPage === 1}
+      onClick={() => handlePageChange(currentPage - 1)}
+    >
+      <ChevronLeft className="h-4 w-4" />
+    </Button>
 
-      {/* Кнопки страниц */}
-      <div className="flex gap-1 mx-2">
-        {[...Array(pageCount)].map((_, i) => (
-          <Button
-            key={i}
-            variant={currentPage === i + 1 ? 'default' : 'ghost'}
-            onClick={() => handlePageChange(i + 1)}
-          >
-            {i + 1}
-          </Button>
-        ))}
-      </div>
+    {/* Кнопки страниц */}
+    <div className="flex gap-1 mx-2">
+      {currentPage > pageRange && (
+        <Button
+          className='text-md font-bold'
+          variant="ghost"
+          onClick={() => handlePageChange(1)}
+        >
+          1
+        </Button>
+      )}
 
-      {/* Кнопка "Вперед" */}
-      <Button
-        className="p-0 w-10 disabled:bg-white disabled:opacity-20"
-        variant="outline"
-        disabled={currentPage === pageCount}
-        onClick={() => handlePageChange(currentPage + 1)}
-      >
-        <ChevronLeft className="h-4 w-4 rotate-180" />
-      </Button>
+      {currentPage > pageRange && <span className="text-gray-500 h-10 px-2 py-2">...</span>}
+
+      {pages.map((page) => (
+        <Button 
+          className='text-md font-bold'
+          key={page}
+          variant={currentPage === page ? 'default' : 'ghost'}
+          onClick={() => handlePageChange(page)}
+        >
+          {page}
+        </Button>
+      ))}
+
+      {currentPage < pageCount - pageRange && <span className="text-gray-500 h-10 px-2 py-2">...</span>}
+
+      {currentPage < pageCount - pageRange && (
+        <Button
+          className='text-md font-bold'
+          variant="ghost"
+          onClick={() => handlePageChange(pageCount)}
+        >
+          {pageCount}
+        </Button>
+      )}
     </div>
+
+    {/* Кнопка "Вперед" */}
+    <Button
+      className="p-0 w-10 disabled:bg-white disabled:opacity-20"
+      variant="outline"
+      disabled={currentPage === pageCount}
+      onClick={() => handlePageChange(currentPage + 1)}
+    >
+      <ChevronLeft className="h-4 w-4 rotate-180" />
+    </Button>
+  </div>
   );
 };

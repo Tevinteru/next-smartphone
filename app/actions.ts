@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cartToken = cookieStore.get('cartToken')?.value;
 
     if (!cartToken) {
@@ -71,6 +71,8 @@ export async function createOrder(data: CheckoutFormValues) {
         cartId: userCart.id,
       },
     });
+
+    return true;
 
   } catch (err) {
     console.log('[CreateOrder] Server error', err);

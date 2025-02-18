@@ -1,0 +1,2 @@
+[Tue Feb 18 17:39:27 2025] [error] [client 188.244.252.48:0] AH00124: Request exceeded the limit of 10 internal redirects due to probable configuration error. Use 'LimitInternalRecursion' to increase the limit if necessary. Use 'LogLevel debug' to get a backtrace.
+[Tue Feb 18 17:39:27 2025] [error] [client 188.244.252.48:0] AH00124: Request exceeded the limit of 10 internal redirects due to probable configuration error. Use 'LimitInternalRecursion' to increase the limit if necessary. Use 'LogLevel debug' to get a backtrace., referer http://kriper0m.beget.tech/

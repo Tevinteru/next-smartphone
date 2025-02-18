@@ -1,3 +1,4 @@
+import { Header } from "@/shared/components";
 
 export default function ProductLayout({ children }: { children: React.ReactNode }) {
     return (

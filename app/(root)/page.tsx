@@ -1,4 +1,4 @@
-import { Container, Filters, Pagination } from "@/shared/components/shared";
+import { Container, Filters, Pagination, SortPopup } from "@/shared/components/shared";
 import { ProductsList } from "@/shared/components/shared/products-list";
 import { findProducts, GetSearchParams } from "@/shared/lib/find-products";
 import { Suspense } from "react";
@@ -17,20 +17,27 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
               <Filters />
             </Suspense>
           </div>
-          {/* Список товаров */}
+
+          {/* Див товаров */}
           <div className="flex-1">
+
+            {/* Сортировка товаров */}
+            <div className="flex justify-end">
+              <SortPopup className="mb-4"/>
+            </div>
+
+            {/* Список товаров */}
             <div className="flex flex-col gap-16">
               {products.length > 0 ? (
                 <ProductsList
-                  products={products} // Передаем весь массив продуктов
+                  products={products}
                 />
               ) : (
-                <p>Нет доступных продуктов</p> // Добавляем сообщение, если нет продуктов
+                <p>Нет доступных продуктов</p>
               )}
             </div>
-            <div className="flex items-center gap-6 mt-12">
+            <div className="flex items-center justify-center gap-6 mt-12">
               <Pagination pageCount={meta.pageCount} currentPage={meta.currentPage} />
-              <span className="text-sm text-gray-400">5 из 65</span>
             </div>
           </div>
         </div>

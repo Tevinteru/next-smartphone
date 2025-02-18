@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/components';
-import { Dialog, DialogContent } from '@/shared/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/shared/components/ui/dialog';
 import React from 'react';
 import { LoginForm } from './forms/login-form';
 import { RegisterForm } from './forms/register-form';
@@ -25,6 +25,8 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="w-[450px] bg-white p-10">
+      <DialogTitle className="sr-only">Авторизация</DialogTitle>
+
         {type === 'login' ? (
           <LoginForm onClose={handleClose} />
         ) : (
