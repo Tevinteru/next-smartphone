@@ -75,7 +75,7 @@ export const findProducts = async (params: GetSearchParams) => {
           ...(ramArr?.length && {
             OR: [
               {
-                characteristic: "ram", // Фильтрация по RAM
+                characteristic: "Оперативная память", // Фильтрация по RAM
                 value: { in: ramArr.map(r => r.toLowerCase()) },
               },
             ],
@@ -83,7 +83,7 @@ export const findProducts = async (params: GetSearchParams) => {
           ...(storageArr?.length && {
             OR: [
               {
-                characteristic: "storage", // Фильтрация по памяти
+                characteristic: "Встроенная память", // Фильтрация по памяти
                 value: { in: storageArr.map(s => s.toLowerCase()) },
               },
             ],

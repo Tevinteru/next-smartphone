@@ -11,7 +11,13 @@ type SmartphoneCharacteristicData = {
   categoryId: number;
 
 };
-
+type ProductsData = {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  brandId: number;
+};
 
 
 async function up() {
@@ -24,6 +30,7 @@ async function up() {
         { fullName: "Admin", email: "admin@test.ru", password: hashSync("123", 10), role: "ADMIN" },
       ],
     });
+  });
 
     // 2. Список брендов
     const brandsData = [
@@ -39,9 +46,10 @@ async function up() {
       { name: 'Google' },
     ];
 
-    // Создание брендов и получение их с id
-    await prisma.brand.createMany({
-      data: brandsData,
+    await prisma.$transaction(async (prisma) => {
+      await prisma.brand.createMany({
+        data: brandsData,
+      });
     });
 
     // Получаем все бренды с id после создания
@@ -50,17 +58,21 @@ async function up() {
     // 3. Список категорий характеристик
     const categoriesData = [
       { name: 'Экран' },
+      { name: 'Память' },
       { name: 'Камера' },
       { name: 'Корпус' },
-      { name: 'Память и процессор' },
+      { name: 'Процессор и ядра' },
       { name: 'Аккумулятор' },
       { name: 'Безопасность' },
       { name: 'Общая информация' },
     ];
 
-    const createdCategories = await prisma.characteristicCategory.createMany({
+    
+  await prisma.$transaction(async (prisma) => {
+    await prisma.characteristicCategory.createMany({
       data: categoriesData,
     });
+  });
 
     const categories = await prisma.characteristicCategory.findMany();
 
@@ -92,6 +104,13 @@ async function up() {
         ],
       },
       {
+        characteristic: 'Память',
+        subCharacteristics: [
+          { name: 'Оперативная память', values: ['3 ГБ', '4 ГБ', '6 ГБ', '8 ГБ', '12 ГБ'] },
+          { name: 'Встроенная память', values: ['64 ГБ', '128 ГБ', '256 ГБ', '512 ГБ', '1024 ГБ'] },
+        ],
+      },
+      {
         characteristic: 'Камера',
         subCharacteristics: [
           { name: 'Основная камера', values: ['12 Мп', '48 Мп', '50 Мп', '64 Мп', '108 Мп'] },
@@ -103,8 +122,6 @@ async function up() {
         characteristic: 'Корпус',
         subCharacteristics: [
           { name: 'Материал', values: ['Пластик', 'Металл', 'Стекло', 'Металл, стекло'] },
-          { name: 'Защита от брызг, воды и пыли', values: ['IP53', 'IP67', 'IP68', 'Нет'] },
-          { name: 'Погружение в воду', values: ['1 м', '1.5 м', 'Нет'] },
           { name: 'Вес', values: ['150 г', '160 г', '170 г', '180 г', '190 г', '200 г'] },
           { name: 'Высота', values: ['140 мм', '145 мм', '150 мм', '155 мм', '160 мм'] },
           { name: 'Ширина', values: ['65 мм', '70 мм', '75 мм', '80 мм'] },
@@ -112,7 +129,7 @@ async function up() {
         ],
       },
       {
-        characteristic: 'Память и процессор',
+        characteristic: 'Процессор и ядра',
         subCharacteristics: [
           { name: 'Процессор', values: ['Snapdragon 8 Gen 2', 'Snapdragon 8 Gen 3', 'Exynos 2200', 'Exynos 2400', 'Dimensity 9200+', 'Qualcomm Snapdragon 8 Elite for Galaxy'] },
           { name: 'Количество ядер', values: ['8', '10'] },
@@ -135,7 +152,6 @@ async function up() {
       {
         characteristic: 'Общая информация',
         subCharacteristics: [
-          { name: 'Гарантия предоставляется', values: ['Производителем'] },
           { name: 'Год выпуска', values: ['2023', '2024', '2025'] },
           { name: 'Операционная система', values: ['Android 13', 'Android 14', 'Android 15', 'iOS 16', 'iOS 17', 'iOS 18'] },
           { name: 'Cтрана производства', values: ['Китай', 'Вьетнам', 'Индия'] },
@@ -153,7 +169,7 @@ async function up() {
 
 
     // Генерация продуктов
-    const productsData = [];
+    const productsData: ProductsData[] = [];
     for (let i = 0; i < 100; i++) {
       const brand = faker.helpers.arrayElement(brands);
 
@@ -166,13 +182,15 @@ async function up() {
         description: productDescription,
         price: faker.number.int({ min: 4999, max: 100500 }),
         imageUrl: getRandomImage(),
-        brandId: brand.id, // Используем id бренда
+        brandId: brand.id,
       });
     }
 
-    // Вставка продуктов в базу данных
-    await prisma.product.createMany({
-      data: productsData,
+   
+    await prisma.$transaction(async (prisma) => {
+      await prisma.product.createMany({
+        data: productsData,
+      });
     });
 
     // Генерация характеристик для каждого продукта
@@ -201,11 +219,11 @@ async function up() {
       }
     }
 
-    // Вставка характеристик в базу данных
-    await prisma.smartphoneCharacteristic.createMany({
-      data: smartphoneCharacteristicsData,
+    await prisma.$transaction(async (prisma) => {
+      await prisma.smartphoneCharacteristic.createMany({
+        data: smartphoneCharacteristicsData,
+      });
     });
-  });
 
   console.log('Seed data inserted successfully!');
 }

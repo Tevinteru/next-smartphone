@@ -19,7 +19,7 @@ export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
 
   return (
     <header className={cn("border-b", className)}>
-      <Container className="flex items-center justify-between py-8">
+      <Container className="flex items-center justify-between py-8 md:flex-col md:items-center">
         {/* Левая часть */}
         <Link href="/">
           <div className="flex items-center gap-3">

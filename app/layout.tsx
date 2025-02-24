@@ -8,6 +8,10 @@ const nunito = Nunito({
   variable: "--font-nunito",
   weight: ["400", "500", "600", "700", "800", "900"],
 });
+export const metadata = {
+  name: "viewport",
+  content: "width=device-width, initial-scale=1.0"
+};
 
 export default function RootLayout({
   children,
