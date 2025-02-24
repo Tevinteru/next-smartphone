@@ -9,10 +9,10 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
 
   return (
     <>
-      <Container className="mt-10 pb-14">
-        <div className="flex gap-[80px]">
+      <Container className="mt-6 md:mt-10 pb-6 md:pb-14">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-[80px]">
           {/* Фильтраиця */}
-          <div className="w-[250px]">
+          <div className="w-full md:w-[250px]">
             <Suspense>
               <Filters />
             </Suspense>
@@ -23,11 +23,11 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
 
             {/* Сортировка товаров */}
             <div className="flex justify-end">
-              <SortPopup className="mb-4"/>
+              <SortPopup className="mb-2 md:mb-4"/>
             </div>
 
             {/* Список товаров */}
-            <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-8 md:gap-12 lg:gap-16">
               {products.length > 0 ? (
                 <ProductsList
                   products={products}
@@ -36,7 +36,7 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
                 <p>Нет доступных продуктов</p>
               )}
             </div>
-            <div className="flex items-center justify-center gap-6 mt-12">
+            <div className="flex items-center justify-center gap-4 md:gap-6 mt-6 md:mt-8 lg:mt-12">
               <Pagination pageCount={meta.pageCount} currentPage={meta.currentPage} />
             </div>
           </div>

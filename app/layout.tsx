@@ -13,7 +13,7 @@ export const metadata = {
   content: "width=device-width, initial-scale=1.0"
 };
 
-export default function RootLayout({
+export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

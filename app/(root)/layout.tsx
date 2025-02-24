@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Next Smartphone',
 };
 
-export default function HomeLayout({
+export default function RootLayout({
   children,
   modal,
 }: Readonly<{
