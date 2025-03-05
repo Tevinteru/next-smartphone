@@ -1,4 +1,4 @@
-import { Container, Filters, Pagination, SortPopup } from "@/shared/components/shared";
+import { Container, AdaptiveFilters, Pagination, SortPopup } from "@/shared/components/shared";
 import { ProductsList } from "@/shared/components/shared/products-list";
 import { findProducts, GetSearchParams } from "@/shared/lib/find-products";
 import { Suspense } from "react";
@@ -12,9 +12,9 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
       <Container className="mt-6 md:mt-10 pb-6 md:pb-14">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-[80px]">
           {/* Фильтраиця */}
-          <div className="w-full md:w-[250px]">
+          <div className="w-full md:w-[250px] px-2 md:px-4">
             <Suspense>
-              <Filters />
+              <AdaptiveFilters  />
             </Suspense>
           </div>
 
@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
           <div className="flex-1">
 
             {/* Сортировка товаров */}
-            <div className="flex justify-end">
+            <div className="flex justify-end px-2 md:px-4">
               <SortPopup className="mb-2 md:mb-4"/>
             </div>
 

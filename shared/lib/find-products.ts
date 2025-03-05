@@ -36,8 +36,8 @@ const priceRanges: Record<PriceRangeKey, { gte: number; lte: number }> = {
 export const findProducts = async (params: GetSearchParams) => {
   // Разбор параметров  
   const brandsArr = params.brands?.split(',').map(Number); // Бренды
-  const ramArr = params.ram?.split(',').map(String); // Фильтрация по RAM
-  const storageArr = params.storage?.split(',').map(String); // Фильтрация по памяти
+  const ramArr = params.ram?.split(",").map((r) => `${r} ГБ`);
+  const storageArr = params.storage?.split(",").map((s) => `${s} ГБ`);
   const minPrice = Number(params.priceFrom) || DEFAULT_MIN_PRICE;
   const maxPrice = Number(params.priceTo) || DEFAULT_MAX_PRICE;
 
@@ -75,16 +75,16 @@ export const findProducts = async (params: GetSearchParams) => {
           ...(ramArr?.length && {
             OR: [
               {
-                characteristic: "Оперативная память", // Фильтрация по RAM
-                value: { in: ramArr.map(r => r.toLowerCase()) },
+                characteristic: "Оперативная память",
+                value: { in: ramArr },
               },
             ],
           }),
           ...(storageArr?.length && {
             OR: [
               {
-                characteristic: "Встроенная память", // Фильтрация по памяти
-                value: { in: storageArr.map(s => s.toLowerCase()) },
+                characteristic: "Встроенная память",
+                value: { in: storageArr },
               },
             ],
           }),

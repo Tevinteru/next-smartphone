@@ -25,28 +25,30 @@ interface ReturnProps extends Filters {
   setRam: (value: string) => void;
   setSelectedBrands: (value: string) => void;
   setStorage: (value: string) => void;
+  resetFilters: () => void; // Добавляем функцию сброса
 }
 
 export const useFilters = (): ReturnProps => {
+  const router = useRouter();
   const searchParams = useSearchParams() as unknown as Map<
     keyof QueryFilters,
     string
   >;
 
   /* Фильтр брендов*/
-  const [selectedBrands, { toggle: toggleBrands }] = useSet(
+  const [selectedBrands, { toggle: toggleBrands, reset: resetBrands }] = useSet(
     new Set<string>(searchParams.get("brands")?.split(","))
   );
 
   /* Фильтр ОЗУ*/
-  const [ram, { toggle: toggleRam }] = useSet(
+  const [ram, { toggle: toggleRam, reset: resetRam }] = useSet(
     new Set<string>(
       searchParams.get("ram") ? searchParams.get("ram")?.split(",") : []
     )
   );
 
-  /* Фильтр ОЗУ*/
-  const [storage, { toggle: toggleStorage }] = useSet(
+  /* Фильтр встроенной памяти*/
+  const [storage, { toggle: toggleStorage, reset: resetStorage }] = useSet(
     new Set<string>(
       searchParams.get("storage") ? searchParams.get("storage")?.split(",") : []
     )
@@ -65,6 +67,26 @@ export const useFilters = (): ReturnProps => {
     });
   };
 
+  // Функция сброса фильтров
+  const resetFilters = () => {
+    // Сбрасываем состояния
+    resetBrands();
+    resetRam();
+    resetStorage();
+    setPrices({ priceFrom: undefined, priceTo: undefined });
+
+    // Очищаем параметры URL
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.delete("brands");
+    newSearchParams.delete("ram");
+    newSearchParams.delete("storage");
+    newSearchParams.delete("priceFrom");
+    newSearchParams.delete("priceTo");
+
+    // Обновляем URL без параметров фильтрации
+    router.replace(`?${newSearchParams.toString()}`);
+  };
+
   return React.useMemo(
     () => ({
       storage,
@@ -75,6 +97,7 @@ export const useFilters = (): ReturnProps => {
       setStorage: toggleStorage,
       setRam: toggleRam,
       setSelectedBrands: toggleBrands,
+      resetFilters, // Возвращаем функцию сброса
     }),
     [storage, ram, selectedBrands, prices]
   );

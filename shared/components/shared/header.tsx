@@ -19,12 +19,20 @@ export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
 
     return (
         <header className={cn("border-b", className)}>
-            <Container className="flex items-center justify-between py-3 md:py-4 px-2 md:px-4">
-                {/* Left Section: Logo and Title */}
-                <Link href="/" className="flex items-center gap-2 shrink-0">
-                    <Image src="/logo.png" width={40} height={40} alt="Logo" />
-                    <Title text="Смартфоны" size="md" className="font-bold uppercase" />
-                </Link>
+            <Container className="flex items-center justify-between py-6 md:py-6 px-2 md:px-4">
+                  {/* Left Section: Logo, Title, and Links */}
+                  <div className="flex items-center gap-[90px]">
+                    <Link href="/" className="flex items-center gap-2 shrink-0">
+                        <Image src="/logo.png" width={40} height={40} alt="Logo" />
+                        <Title text="Смартфоны" size="md" className="font-bold uppercase" />
+                    </Link>
+
+                    {/* Links to About and Contact */}
+                    <div className="hidden md:flex space-x-8">
+                        <Link href="/contact" className="text-lg text-gray-700 hover:text-primary transition-colors">Контакты</Link>
+                        <Link href="/about" className="text-lg text-gray-700 hover:text-primary transition-colors">О нас</Link>
+                    </div>
+                </div>
 
                 {/* Right Section: Auth, Profile, Cart, Mobile Menu */}
                 <div className="flex items-center space-x-2 md:space-x-3">

@@ -24,6 +24,7 @@ export { AdressInput } from './address-input';
 export { ProfileButton } from './profile-button';
 export { ProfileForm } from './profile-form';
 export { Pagination } from './pagination';
+export { AdaptiveFilters } from './adaptive-filters';
 export * from './checkout';
 export * from './form';
 export * from './modals';

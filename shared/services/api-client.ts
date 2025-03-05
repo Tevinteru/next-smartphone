@@ -5,5 +5,5 @@ import * as auth from './auth';
 export const Api = {
     brands,
     cart,
-    auth
+    auth,
 }
