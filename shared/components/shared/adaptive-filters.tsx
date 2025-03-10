@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/shared/components/ui/sheet";
 import { Filters } from "./filters";
 import { Button } from "@/shared/components/ui/button";
-import { Menu } from "lucide-react";
+import { Filter } from "lucide-react";
 
 export const AdaptiveFilters: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ export const AdaptiveFilters: React.FC = () => {
         <SheetTitle hidden={true} />
           <SheetTrigger asChild>
             <Button variant="outline" className="flex items-center gap-2">
-              <Menu size={16} />
+              <Filter size={16} />
               Фильтры
             </Button>
           </SheetTrigger>

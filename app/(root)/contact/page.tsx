@@ -1,111 +1,129 @@
 import React from 'react';
 import { Button, Title } from '@/shared/components'; // Кнопки из shadcn/ui или Radix
-
 import Image from 'next/image';
-import { cn } from '@/shared/lib/utils';
 
-const ContactPage = () => {
+export default async function HomePage() {
   return (
-    <div className="container mx-auto px-6 py-16 md:py-24">
+    <div className="container mx-auto px-6 py-8 md:py-8">
       {/* Заголовок */}
-      <Title size="lg" text="Контакты" className="text-center text-4xl md:text-5xl font-extrabold text-primary mb-12" />
-      
-      {/* Введение */}
+      <Title
+        size="lg"
+        text="Контакты"
+        className="text-center text-4xl md:text-5xl font-extrabold text-primary mb-8"
+      />
+
+      {/* Описание */}
       <div className="text-center mb-16">
         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Свяжитесь с нами, и мы обязательно ответим на все ваши вопросы. Наши контактные данные и места для встреч — всегда под рукой.
+          Мы всегда рады помочь вам! Свяжитесь с нами по указанным контактам или посетите наш офис. Наша команда готова ответить на все ваши вопросы.
         </p>
       </div>
 
-      {/* Галерея */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-6">
-        <div className="group relative">
-          <Image
-            src="/images/contact1.jpg"
-            alt="Контакт 1"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Наш офис
+      {/* Галерея фотографий */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Фото 1 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact1.jpg"
+              alt="Менеджер по продажам"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Алексей Иванов</h3>
+            <p className="text-gray-600">Менеджер по продажам</p>
+            <p className="text-gray-600">+7 (999) 123-45-67</p>
           </div>
         </div>
 
-        <div className="group relative">
-          <Image
-            src="/images/contact2.jpg"
-            alt="Контакт 2"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Зона отдыха
+        {/* Фото 2 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact3.jpg"
+              alt="Техническая поддержка"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Мария Петрова</h3>
+            <p className="text-gray-600">Техническая поддержка</p>
+            <p className="text-gray-600">+7 (999) 765-43-21</p>
           </div>
         </div>
 
-        <div className="group relative">
-          <Image
-            src="/images/contact3.jpg"
-            alt="Контакт 3"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Вдохновляющие идеи
+        {/* Фото 3 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact2.jpg"
+              alt="Маркетинг"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Дмитрий Сидоров</h3>
+            <p className="text-gray-600">Отдел маркетинга</p>
+            <p className="text-gray-600">+7 (999) 987-65-43</p>
           </div>
         </div>
 
-        <div className="group relative">
-          <Image
-            src="/images/contact4.jpg"
-            alt="Контакт 4"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Гибкость работы
+        {/* Фото 4 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact4.jpg"
+              alt="Офис в Москве"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Офис в Москве</h3>
+            <p className="text-gray-600">ул. Тверская, 10</p>
+            <p className="text-gray-600">+7 (495) 123-45-67</p>
           </div>
         </div>
 
-        <div className="group relative">
-          <Image
-            src="/images/contact5.jpg"
-            alt="Контакт 5"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Обсуждение проектов
+        {/* Фото 5 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact5.jpg"
+              alt="Офис в Санкт-Петербурге"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Офис в Санкт-Петербурге</h3>
+            <p className="text-gray-600">Невский проспект, 25</p>
+            <p className="text-gray-600">+7 (812) 987-65-43</p>
           </div>
         </div>
 
-        <div className="group relative">
-          <Image
-            src="/images/contact6.jpg"
-            alt="Контакт 6"
-            width={400}
-            height={300}
-            className="rounded-xl object-cover transition-transform transform group-hover:scale-105"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-lg p-4 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            Уютная атмосфера
+        {/* Фото 6 */}
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
+            <Image
+              src="/images/contact6.jpg"
+              alt="Склад"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <h3 className="text-xl font-semibold text-gray-800">Склад</h3>
+            <p className="text-gray-600">ул. Ленина, 15</p>
+            <p className="text-gray-600">+7 (800) 123-45-67</p>
           </div>
         </div>
       </div>
 
-      {/* Кнопка CTA */}
-      <div className="text-center mt-12">
-        <Button variant="outline" className="px-8 py-4 text-xl border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-300">
-          Связаться с нами
-        </Button>
-      </div>
     </div>
   );
 };
-
-export default ContactPage;

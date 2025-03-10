@@ -6,9 +6,12 @@ import { SessionProvider } from 'next-auth/react';
 import NextTopLoader from 'nextjs-toploader';
 
 export const Providers: React.FC<React.PropsWithChildren> = ({ children }) => {
+    console.log('Rendering Toaster');
+
   return (
     <>
       <SessionProvider>{children}</SessionProvider>
+      
       <Toaster />
       <NextTopLoader />
     </>

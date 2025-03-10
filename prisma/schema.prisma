@@ -43,11 +43,10 @@ model Product {
   imageUrl    String
 
   brandId Int
-  brand   Brand @relation(fields: [brandId], references: [id])
+  brand   Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
 
   smartphoneCharacteristics SmartphoneCharacteristic[]
-
-  cartItems CartItem[] // Обратная связь с CartItem
+  cartItems CartItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,8 +54,11 @@ model Product {
 
 model CharacteristicCategory {
   id               Int                   @id @default(autoincrement())
-  name             String
+  name             String                @unique
   characteristics  SmartphoneCharacteristic[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model SmartphoneCharacteristic {
@@ -65,17 +67,17 @@ model SmartphoneCharacteristic {
   characteristic String
   value          String
 
-  smartphone       Product @relation(fields: [smartphoneId], references: [id])
-  categoryId       Int                   
-  category         CharacteristicCategory @relation(fields: [categoryId], references: [id])
-  
+  smartphone Product @relation(fields: [smartphoneId], references: [id], onDelete: Cascade)
+  categoryId Int
+  category   CharacteristicCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Cart {
   id     Int   @id @default(autoincrement())
-  user   User? @relation(fields: [userId], references: [id])
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int?  @unique
 
   token String
@@ -90,24 +92,24 @@ model Cart {
 model CartItem {
   id Int @id @default(autoincrement())
 
-  cart   Cart @relation(fields: [cartId], references: [id])
+  cart   Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId Int
 
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
 
   quantity Int @default(1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  User      User?    @relation(fields: [userId], references: [id])
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int?
 }
 
 model Order {
   id Int @id @default(autoincrement())
 
-  user   User? @relation(fields: [userId], references: [id])
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int?
 
   token String

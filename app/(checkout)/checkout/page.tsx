@@ -57,14 +57,14 @@ export default function CheckoutPage() {
 
       const success = await createOrder(data);
 
-      if (success){
+      if (success) {
         toast.error('Заказ успешно оформлен!', {
           icon: '✅',
         });
 
         setSubmitting(false);
       }
-      
+
     } catch (err) {
       console.log(err);
       setSubmitting(false);
@@ -85,7 +85,7 @@ export default function CheckoutPage() {
 
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex gap-10">
+          <div className="flex flex-col md:flex-row gap-10">
             {/* Левая часть */}
             <div className="flex flex-col gap-10 flex-1 mb-20">
               <CheckoutCart
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Правая часть */}
-            <div className="w-[450px]">
+            <div className="w-full md:w-[450px]">
               <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
             </div>
           </div>

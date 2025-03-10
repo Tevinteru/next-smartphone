@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container,CartButton, AuthModal, ProfileButton, Title }  from "./index"
+import { ShoppingBag, Info, SquareUserRound } from 'lucide-react';
 import { Button } from "@/shared/components/ui/button";
 import { Menu } from "lucide-react"; 
 
@@ -29,8 +30,18 @@ export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
 
                     {/* Links to About and Contact */}
                     <div className="hidden md:flex space-x-8">
-                        <Link href="/contact" className="text-lg text-gray-700 hover:text-primary transition-colors">Контакты</Link>
-                        <Link href="/about" className="text-lg text-gray-700 hover:text-primary transition-colors">О нас</Link>
+                        <Link href="/catalog" className="flex items-center gap-2 text-lg text-gray-700 hover:text-primary transition-colors">
+                            <ShoppingBag size={18}/>
+                            Каталог
+                        </Link>
+                        <Link href="/contact" className="flex items-center gap-2 text-lg text-gray-700 hover:text-primary transition-colors">
+                            <Info size={18}/>
+                            Контакты
+                        </Link>
+                        <Link href="/about" className="flex items-center gap-2 text-lg text-gray-700 hover:text-primary transition-colors">
+                            <SquareUserRound size={18}/>
+                            О нас
+                        </Link>
                     </div>
                 </div>
 
@@ -59,18 +70,41 @@ export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
 
                 {/* Mobile Menu (Conditionally Rendered) */}
                 {isMobileMenuOpen && (
-                    <div className="fixed top-0 left-0 w-full h-screen bg-white z-50 overflow-y-auto">
-                        <div className="p-4">
-                            <div className="flex justify-end">
-                                <Button variant="ghost" onClick={() => setIsMobileMenuOpen(false)}>
+                    <div className="fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 z-50">
+                        <div className="bg-white w-4/5 sm:w-1/2 h-full p-6 rounded-l-3xl shadow-xl transform transition-transform ease-in-out duration-300">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-2xl font-semibold text-gray-800">Меню</h2>
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="text-gray-500 hover:text-gray-800 transition-colors duration-300"
+                                >
                                     Закрыть
                                 </Button>
                             </div>
+                            {/* Profile button and Cart button with margin between them */}
                             <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
-                            {hasCart && <CartButton />}
-                            {/* Add other mobile menu items here */}
-                            <Link href="/products" className="block py-2">Продукты</Link>
-                            <Link href="/about" className="block py-2">О нас</Link>
+                            {hasCart && <CartButton className="mt-2" />} {/* Add margin-left here for spacing */}
+                            <div className="mt-4 space-y-2">
+                                <Link
+                                    href="/catalog"
+                                    className="block text-lg font-medium text-gray-800 hover:text-primary transition-colors duration-300 py-2"
+                                >
+                                    Каталог
+                                </Link>
+                                <Link
+                                    href="/contacts"
+                                    className="block text-lg font-medium text-gray-800 hover:text-primary transition-colors duration-300 py-2"
+                                >
+                                    Контакты
+                                </Link>
+                                <Link
+                                    href="/about"
+                                    className="block text-lg font-medium text-gray-800 hover:text-primary transition-colors duration-300 py-2"
+                                >
+                                    О нас
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 )}
