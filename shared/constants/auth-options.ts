@@ -59,7 +59,28 @@ export const authOptions: AuthOptions = {
         if (!user.email) {
           return false;
         }
-       
+        const findUser = await prisma.user.findFirst({
+          where: {
+            OR: [
+              { provider: account?.provider, providerId: account?.providerAccountId },
+              { email: user.email },
+            ],
+          },
+        });
+
+        if (findUser) {
+          await prisma.user.update({
+            where: {
+              id: findUser.id,
+            },
+            data: {
+              provider: account?.provider,
+              providerId: account?.providerAccountId,
+            },
+          });
+
+          return true;
+        }
         await prisma.user.create({
           data: {
             email: user.email,

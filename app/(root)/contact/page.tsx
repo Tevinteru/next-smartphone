@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact1.jpg"
+              src="/images/site/contact1.jpg"
               alt="Менеджер по продажам"
               fill
               className="object-cover"
@@ -42,7 +42,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact3.jpg"
+              src="/images/site/contact3.jpg"
               alt="Техническая поддержка"
               fill
               className="object-cover"
@@ -59,7 +59,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact2.jpg"
+              src="/images/site/contact2.jpg"
               alt="Маркетинг"
               fill
               className="object-cover"
@@ -76,7 +76,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact4.jpg"
+              src="/images/site/contact4.jpg"
               alt="Офис в Москве"
               fill
               className="object-cover"
@@ -93,7 +93,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact5.jpg"
+              src="/images/site/contact5.jpg"
               alt="Офис в Санкт-Петербурге"
               fill
               className="object-cover"
@@ -110,7 +110,7 @@ export default async function HomePage() {
         <div className="flex flex-col items-center">
           <div className="w-full h-[300px] relative rounded-lg overflow-hidden">
             <Image
-              src="/images/contact6.jpg"
+              src="/images/site/contact6.jpg"
               alt="Склад"
               fill
               className="object-cover"

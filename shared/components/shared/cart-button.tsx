@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/shared/lib/utils';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '../ui';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { useCartStore } from '@/shared/store/cart';
@@ -12,12 +12,16 @@ interface Props {
 }
 
 export const CartButton: React.FC<Props> = ({ className }) => {
-  const [totalAmount, items, loading] = useCartStore((state) => [
+  const [totalAmount, items, loading, fetchCartItems] = useCartStore((state) => [
     state.totalAmount,
     state.items,
     state.loading,
+    state.fetchCartItems,
   ]);
-
+  // Автоматическое обновление корзины при загрузке компонента
+  useEffect(() => {
+    fetchCartItems();
+  }, [fetchCartItems]);
   return (
     <Link href="/checkout">
       <Button

@@ -26,7 +26,11 @@ async function up() {
     // 1. Создание пользователей
     await prisma.user.createMany({
       data: [
-        { fullName: "Alexey", email: "petr@test.ru", password: hashSync("123", 10), role: "USER" },
+        { fullName: "Alexey", email: "alex@test.ru", password: hashSync("123", 10), role: "USER" },
+        { fullName: "Petrov", email: "petr@test.ru", password: hashSync("123", 10), role: "USER" },
+        { fullName: "Ivanov", email: "ivan@test.ru", password: hashSync("123", 10), role: "USER" },
+        { fullName: "Sidorov", email: "sidorov@test.ru", password: hashSync("123", 10), role: "USER" },
+        { fullName: "Misha", email: "misha@test.ru", password: hashSync("123", 10), role: "USER" },
         { fullName: "Admin", email: "admin@test.ru", password: hashSync("123", 10), role: "ADMIN" },
       ],
     });
@@ -232,7 +236,44 @@ async function up() {
     });
   });
 
-  console.log('Seed data inserted successfully!');
+  const products = await prisma.product.findMany();
+
+  for (let i = 0; i < 5; i++) {
+    const user = await prisma.user.findMany({
+      where: { role: "USER" },
+    });
+  
+    if (!user) {
+      throw new Error("Пользователь с ролью USER не найден");
+    }
+    const items = [
+      {
+        productId: products[i].id,
+        quantity: 1,
+        price: products[i].price,
+      },
+    ];
+
+    const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const token = faker.string.uuid();
+
+    await prisma.order.create({
+      data: {
+        userId: user[i].id,
+        items: items,
+        totalAmount: totalAmount,
+        status: "PENDING",
+        fullName: user[i].fullName,
+        email: user[i].email,
+        phone: faker.phone.number(),
+        address: faker.location.streetAddress(),
+        comment: faker.lorem.sentence(),
+        token: token,
+      },
+    });
+  }
+
+  console.log('Фейковые данные успешно заполнены');
 }
 
 

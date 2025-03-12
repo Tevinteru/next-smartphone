@@ -13,9 +13,11 @@ export default async function Catalog({ searchParams }: { searchParams: GetSearc
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-[80px]">
           {/* Фильтраиця */}
           <div className="w-full md:w-[250px] px-2 md:px-4">
+            <div className="sticky top-4"> {/* Добавлен sticky-контейнер */}
             <Suspense>
               <AdaptiveFilters  />
             </Suspense>
+            </div>
           </div>
 
           {/* Див товаров */}

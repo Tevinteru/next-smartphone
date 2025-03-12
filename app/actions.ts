@@ -15,7 +15,6 @@ export async function createOrder(data: CheckoutFormValues) {
     if (!cartToken) {
       throw new Error('Cart token not found');
     }
-
     /* Находим корзину по токену */
     const userCart = await prisma.cart.findFirst({
       include: {
@@ -40,10 +39,12 @@ export async function createOrder(data: CheckoutFormValues) {
     if (userCart?.totalAmount === 0) {
       throw new Error('Cart is empty');
     }
+    const currentUser = await getUserSession();
 
     /* Создаем заказ */
-    const order = await prisma.order.create({
+    await prisma.order.create({
       data: {
+        userId: Number(currentUser?.id),
         token: cartToken,
         fullName: data.firstName + ' ' + data.lastName,
         email: data.email,

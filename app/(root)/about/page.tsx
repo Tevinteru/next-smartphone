@@ -17,7 +17,7 @@ export default async function AboutPage() {
         {/* Изображение */}
         <div className="flex-1">
           <Image
-            src="/images/about1.jpg"
+            src="/images/site/about1.jpg"
             alt="О нас"
             width={800}
             height={400}

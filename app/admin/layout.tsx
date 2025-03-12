@@ -1,4 +1,4 @@
-import { Container } from "@/shared/components/shared";
+import { AdminSidebar, Container } from "@/shared/components/shared";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -13,7 +13,8 @@ export default function AdminLayout({
 }) {
   return (
     <main className="min-h-screen">
-      <Container>
+      <AdminSidebar />
+      <Container className="flex-1 p-6 md:ml-64">
         <Suspense>
         </Suspense>
         {children}

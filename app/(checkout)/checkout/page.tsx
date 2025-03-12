@@ -2,6 +2,7 @@
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import {
   CheckoutSidebar,
@@ -23,6 +24,7 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = React.useState(false);
   const { totalAmount, updateItemQuantity, items, removeCartItem, loading } = useCart();
   const { data: session } = useSession();
+  const router = useRouter();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -53,6 +55,13 @@ export default function CheckoutPage() {
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
+      // Проверяем, авторизован ли пользователь
+      if (!session) {
+        toast.error('Для оформления заказа необходимо авторизоваться', {
+          icon: '🔒',
+        });
+        return;
+      }
       setSubmitting(true);
 
       const success = await createOrder(data);
@@ -61,8 +70,8 @@ export default function CheckoutPage() {
         toast.error('Заказ успешно оформлен!', {
           icon: '✅',
         });
+        router.push('/catalog');
 
-        setSubmitting(false);
       }
 
     } catch (err) {

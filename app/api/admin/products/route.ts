@@ -43,7 +43,6 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   const { id, brandId, imageUrl, characteristics, ...updateData } = await request.json();
-  console.log(imageUrl + " Это заполняется");
   const updatedProduct = await prisma.product.update({
     where: { id },
     data: {

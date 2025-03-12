@@ -28,3 +28,4 @@ export { AdaptiveFilters } from './adaptive-filters';
 export * from './checkout';
 export * from './form';
 export * from './modals';
+export * from './admin';
