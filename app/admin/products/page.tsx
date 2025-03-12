@@ -4,13 +4,17 @@ import { useEffect } from 'react';
 import { useProductStore } from '@/shared/store/admin/product';
 import { Button } from '@/shared/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Title } from '@/shared/components';
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
 export default function ProductsPage() {
   const { products, fetchProducts, deleteProduct } = useProductStore();
-  const router = useRouter();
 
   useEffect(() => {
     fetchProducts();
@@ -32,7 +36,7 @@ export default function ProductsPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product: { id: any; name: any; price: any; }) => (
+          {products.map((product: Product) => (
             <TableRow key={product.id}>
               <TableCell>{product.id}</TableCell>
               <TableCell>{product.name}</TableCell>

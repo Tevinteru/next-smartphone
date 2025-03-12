@@ -2,11 +2,24 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useProductStore } from '@/shared/store/admin/product';
 import { Button } from '@/shared/components/ui/button';
 import { Input, Label, Select, Title } from '@/shared/components';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { SelectContent, SelectItem, SelectTrigger } from '@/shared/components/ui/select';
+
+// Интерфейсы для типизации
+interface Characteristic {
+  characteristic: string;
+  value: string;
+  categoryId: number;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
 
 export default function CreateProductPage() {
   const router = useRouter();
@@ -17,17 +30,15 @@ export default function CreateProductPage() {
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
   const [brandId, setBrandId] = useState(0);
-  const [characteristics, setCharacteristics] = useState<any[]>([{ characteristic: '', value: '', categoryId: 0 }]);
+  const [characteristics, setCharacteristics] = useState<Characteristic[]>([{ characteristic: '', value: '', categoryId: 0 }]);
   const [file, setFile] = useState<File | null>(null);
-
-  // Стейт для хранения категорий
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   // Загрузка категорий с сервера
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await fetch('/api/categories');
-      const data = await res.json();
+      const data: Category[] = await res.json();
       setCategories(data);
     };
 
@@ -39,23 +50,42 @@ export default function CreateProductPage() {
     setFile(selectedFile);
   };
 
+  const handleUpload = async () => {
+    if (!file) return imageUrl; // Если файла нет, возвращаем старый URL
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setImageUrl(data.imageUrl); // Обновляем стейт с новым URL
+        return data.imageUrl;
+      } else {
+        console.error('Ошибка загрузки файла');
+        return imageUrl;
+      }
+    } catch (error) {
+      console.error('Ошибка сети', error);
+      return imageUrl;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const finalImageUrl = file ? await handleUpload() : imageUrl; // Если есть файл, загружаем его
 
-    let finalImageUrl = imageUrl;  // Сначала используем существующий imageUrl
-
-    // Если файл выбран, то загружаем его
-    if (file) {
-      const uploadedImageUrl = await handleUpload(); // Получаем новый путь к изображению
-      finalImageUrl = uploadedImageUrl;  // Обновляем переменную для пути к изображению
-    }
-
-    // Отправляем новые данные на сервер для создания товара
     const newProductData = {
       name,
       description,
       price,
-      imageUrl: finalImageUrl, 
+      imageUrl: finalImageUrl,
       brandId,
       smartphoneCharacteristics: characteristics.map((char) => ({
         name: char.characteristic,
@@ -64,40 +94,14 @@ export default function CreateProductPage() {
       })),
     };
 
-    await createProduct(newProductData);  // Создание нового товара через store
-    router.push('/admin/products');  // Перенаправляем на страницу со списком продуктов
+    await createProduct(newProductData);
+    router.push('/admin/products');
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    // Загружаем файл на сервер
-    const res = await fetch('/api/admin/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      return data.imageUrl;  // Возвращаем путь, который получаем с сервера
-    } else {
-      console.error("Ошибка загрузки файла");
-      return imageUrl;  // Если ошибка, оставляем старый путь
-    }
-  };
-
-  // Добавить новое поле для характеристики
   const addCharacteristic = () => {
-    setCharacteristics([
-      ...characteristics,
-      { characteristic: '', value: '', categoryId: 0 },
-    ]);
+    setCharacteristics([...characteristics, { characteristic: '', value: '', categoryId: 0 }]);
   };
 
-  // Удалить характеристику
   const removeCharacteristic = (index: number) => {
     setCharacteristics(characteristics.filter((_, i) => i !== index));
   };
@@ -108,7 +112,7 @@ export default function CreateProductPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         
         <div>
-          <Label className='text-lg'>Название товара</Label>
+          <Label className="text-lg">Название товара</Label>
           <Input
             className="border md:text-lg w-full"
             value={name}
@@ -116,8 +120,9 @@ export default function CreateProductPage() {
             required
           />
         </div>
+
         <div>
-          <Label className='text-lg'>Описание товара</Label>
+          <Label className="text-lg">Описание товара</Label>
           <Textarea
             className="border md:text-lg w-full py-1" 
             value={description}
@@ -127,7 +132,7 @@ export default function CreateProductPage() {
         </div>
 
         <div>
-          <Label className='text-lg'>Цена</Label>
+          <Label className="text-lg">Цена</Label>
           <Input
             className="border text-lg md:text-lg w-full"
             type="number"
@@ -138,13 +143,15 @@ export default function CreateProductPage() {
         </div>
 
         <div>
-          <Label className='text-lg'>Изображение</Label>
-          <Input className='text-lg md:text-lg' type="file" accept="image/*" onChange={handleFileChange} />
-          {imageUrl && <img src={imageUrl} alt="Превью" className="mt-2 w-32 h-32 object-cover" />}
+          <Label className="text-lg">Изображение</Label>
+          <Input className="text-lg md:text-lg" type="file" accept="image/*" onChange={handleFileChange} />
+          {imageUrl && (
+            <Image src={imageUrl} alt="Превью" width={128} height={128} className="mt-2 object-cover" />
+          )}
         </div>
 
         <div>
-          <Label className='text-lg'>ID бренда</Label>
+          <Label className="text-lg">ID бренда</Label>
           <Input
             className="border text-lg md:text-lg w-full"
             type="number"
@@ -161,7 +168,6 @@ export default function CreateProductPage() {
               <Label className="block md:text-lg font-medium text-gray-700 mb-2">
                 Категория:
                 <Select
-                  
                   value={char.categoryId.toString()}
                   onValueChange={(value) => {
                     const updatedCharacteristics = [...characteristics];
@@ -170,11 +176,13 @@ export default function CreateProductPage() {
                   }}
                 >
                   <SelectTrigger className="border p-2 w-full text-lg md:text-lg">
-                    <span className='md:text-lg text-lg'>{char.categoryId === 0 ? 'Не выбрана' : categories.find(cat => cat.id === char.categoryId)?.name}</span>
+                    <span className="md:text-lg text-lg">
+                      {char.categoryId === 0 ? 'Не выбрана' : categories.find(cat => cat.id === char.categoryId)?.name}
+                    </span>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem className="md:text-lg" value="0">Не выбрана</SelectItem>
-                    {categories.map((category: any) => (
+                    {categories.map((category) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
                         {category.name}
                       </SelectItem>
@@ -211,23 +219,18 @@ export default function CreateProductPage() {
                 />
               </div>
 
-              <Button
-                type="button"
-                variant={'outline'}
-                onClick={() => removeCharacteristic(index)}
-                className="mt-4 md:text-lg"
-              >
+              <Button type="button" variant="outline" onClick={() => removeCharacteristic(index)} className="mt-4">
                 Удалить характеристику
               </Button>
             </div>
           ))}
 
-          <Button type="button" className="md:text-lg" variant={'destructive'} onClick={addCharacteristic}>
+          <Button type="button" variant="destructive" onClick={addCharacteristic}>
             Добавить характеристику
           </Button>
         </div>
 
-        <Button className="md:text-lg" type="submit">Создать</Button>
+        <Button type="submit">Создать</Button>
       </form>
     </div>
   );

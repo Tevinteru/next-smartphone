@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useUserStore } from '@/shared/store/admin/user';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table';
 import Link from 'next/link';
@@ -10,7 +9,6 @@ import { Title } from '@/shared/components';
 
 export default function UsersPage() {
   const { users, fetchUsers, deleteUser } = useUserStore();
-  const router = useRouter();
 
   useEffect(() => {
     fetchUsers();

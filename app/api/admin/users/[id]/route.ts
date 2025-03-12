@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 import { hashSync } from 'bcrypt';
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
-  const { id } = await params;
+export async function PUT(request: Request, { params }:  { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;  // Wait for params to resolve
+  const { id } = resolvedParams;  // Now you can safely access id
+
   const { fullName, email, password, role } = await request.json();
 
   // Пример: если вы хотите, чтобы пароль был зашифрован

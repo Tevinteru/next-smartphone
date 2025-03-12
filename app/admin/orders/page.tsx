@@ -8,6 +8,14 @@ import { Select, SelectTrigger, SelectContent, SelectItem } from '@/shared/compo
 import { Label } from '@/shared/components/ui';
 import { Title } from '@/shared/components';
 
+type OrderType = {
+  id: number;
+  userId: number | null; // Исправлено на number | null
+  status: 'PENDING' | 'SUCCEEDED' | 'CANCELLED';
+  totalAmount: number;
+};
+
+
 export default function OrdersPage() {
   const { orders, fetchOrders, updateOrder, deleteOrder } = useOrderStore();
 
@@ -31,7 +39,7 @@ export default function OrdersPage() {
         </TableHeader>
         
         <TableBody>
-          {orders.map((order: { id: any; userId: any; status: string | number | readonly string[] | undefined; totalAmount: any; }) => (
+        {orders.map((order: OrderType) => (
             <TableRow key={order.id}>
               <TableCell>{order.id}</TableCell>
               <TableCell>{order.userId ?? 'Гость'}</TableCell>

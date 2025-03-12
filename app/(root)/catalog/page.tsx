@@ -3,9 +3,13 @@ import { ProductsList } from "@/shared/components/shared/products-list";
 import { findProducts, GetSearchParams } from "@/shared/lib/find-products";
 import { Suspense } from "react";
 
-export default async function Catalog({ searchParams }: { searchParams: GetSearchParams}) {
+export default async function Catalog({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const params = await searchParams;
-  const [products, meta] = await findProducts(params);
+  const [products, meta] = await findProducts(params as GetSearchParams);
 
   return (
     <>

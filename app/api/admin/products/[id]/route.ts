@@ -1,10 +1,11 @@
-// /app/api/admin/products/[id]/route.ts
 import { NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = await params;
-
+// The params is a Promise<{ id: string }> so we need to await it properly
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;  // Wait for params to resolve
+  const { id } = resolvedParams;  // Now you can safely access id
+  
   // Пытаемся получить товар по ID
   const product = await prisma.product.findUnique({
     where: { id: Number(id) },

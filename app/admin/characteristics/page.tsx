@@ -7,6 +7,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import Link from 'next/link';
 import { Title } from '@/shared/components';
 
+interface CharacteristicType {
+  id: number; 
+  characteristic: string; 
+  value: string; 
+  categoryId: number;
+}
+
 export default function CharacteristicsPage() {
   const { characteristics, fetchCharacteristics, deleteCharacteristic } = useCharacteristicStore();
 
@@ -31,7 +38,7 @@ export default function CharacteristicsPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {characteristics.map((char: { id: any; characteristic: any; value: any; categoryId: any; }) => (
+        {characteristics.map((char: CharacteristicType) => (
             <TableRow key={char.id}>
               <TableCell>{char.id}</TableCell>
               <TableCell>{char.characteristic}</TableCell>

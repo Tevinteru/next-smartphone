@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Title } from '@/shared/components'; // Кнопки из shadcn/ui или Radix
+import { Title } from '@/shared/components'; // Кнопки из shadcn/ui или Radix
 import Image from 'next/image';
 
 export default async function HomePage() {

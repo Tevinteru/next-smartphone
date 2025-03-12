@@ -14,7 +14,7 @@ export async function GET() {
     });
 
     return NextResponse.json(latestOrders);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Ошибка при загрузке данных' },
       { status: 500 }

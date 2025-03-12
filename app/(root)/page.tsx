@@ -74,7 +74,7 @@ export default function HomePage() {
           {popularProducts.map((product) => (
             <div key={product.id} className="text-center">
               <div className="relative flex justify-center h-64 w-full rounded-lg overflow-hidden mb-4">
-                <img
+                <Image
                   src={product.image}
                   alt={product.name}
                   className="object-contain w-full h-full"

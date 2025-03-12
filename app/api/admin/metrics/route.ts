@@ -18,7 +18,7 @@ export async function GET() {
       totalUsers,
       totalRevenue: totalRevenue._sum.totalAmount || 0, // Используйте правильное имя поля
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Ошибка при загрузке данных' },
       { status: 500 }

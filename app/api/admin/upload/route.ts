@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     await writeFile(filePath, buffer);
     
     return NextResponse.json({ imageUrl: `/images/product/${fileName}` }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Ошибка загрузки' }, { status: 500 });
+  } catch {
+    return NextResponse.json({ err: 'Ошибка загрузки' }, { status: 500 });
   }
 }

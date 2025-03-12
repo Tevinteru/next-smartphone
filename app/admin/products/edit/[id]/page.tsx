@@ -4,10 +4,16 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useProductStore } from '@/shared/store/admin/product';
 import { Button } from '@/shared/components/ui/button';
-import { Input, Label, Select, Title } from '@/shared/components';
+import Image from 'next/image';
+import { Input, Label, Title } from '@/shared/components';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { SelectContent, SelectTrigger } from '@/shared/components/ui/select';
-import { SelectItem } from '@radix-ui/react-select';
+
+interface Characteristic {
+  characteristic: string;
+  value: string;
+  categoryId: number;
+  category?: { name: string }; // Можно добавить тип категории, если она существует
+}
 
 export default function EditProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,11 +25,8 @@ export default function EditProductPage() {
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
   const [brandId, setBrandId] = useState(0);
-  const [characteristics, setCharacteristics] = useState<any[]>([]);
+  const [characteristics, setCharacteristics] = useState<Characteristic[]>([]);
   const [file, setFile] = useState<File | null>(null);
-
-  // Стейт для хранения категорий
-  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -154,7 +157,13 @@ export default function EditProductPage() {
             accept="image/*"
             onChange={handleFileChange}
           />
-          {imageUrl && <img src={imageUrl} alt="Превью" className="mt-2 w-32 h-32 object-cover" />}
+          {imageUrl && <Image
+               src={imageUrl}
+               alt="Превью"
+               width={32}  // Указываем ширину
+               height={32} // Указываем высоту
+               className="mt-2 object-cover rounded-lg"
+            />}
         </div>
   
         <div>
