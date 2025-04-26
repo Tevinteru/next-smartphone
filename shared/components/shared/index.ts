@@ -25,6 +25,9 @@ export { ProfileButton } from './profile-button';
 export { ProfileForm } from './profile-form';
 export { Pagination } from './pagination';
 export { AdaptiveFilters } from './adaptive-filters';
+export { MobileMenu } from './mobile-menu';
+export { ProductFormDetails } from './product-form-details';
+
 export * from './checkout';
 export * from './form';
 export * from './modals';

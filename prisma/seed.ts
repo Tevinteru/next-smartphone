@@ -26,12 +26,12 @@ async function up() {
     // 1. Создание пользователей
     await prisma.user.createMany({
       data: [
-        { fullName: "Alexey", email: "alex@test.ru", password: hashSync("123", 10), role: "USER" },
-        { fullName: "Petrov", email: "petr@test.ru", password: hashSync("123", 10), role: "USER" },
-        { fullName: "Ivanov", email: "ivan@test.ru", password: hashSync("123", 10), role: "USER" },
-        { fullName: "Sidorov", email: "sidorov@test.ru", password: hashSync("123", 10), role: "USER" },
-        { fullName: "Misha", email: "misha@test.ru", password: hashSync("123", 10), role: "USER" },
-        { fullName: "Admin", email: "admin@test.ru", password: hashSync("123", 10), role: "ADMIN" },
+        { fullName: "Alexey", email: "alex@test.ru", password: hashSync("1234", 10), role: "USER" },
+        { fullName: "Petrov", email: "petr@test.ru", password: hashSync("1234", 10), role: "USER" },
+        { fullName: "Ivanov", email: "ivan@test.ru", password: hashSync("1234", 10), role: "USER" },
+        { fullName: "Sidorov", email: "sidorov@test.ru", password: hashSync("1234", 10), role: "USER" },
+        { fullName: "Misha", email: "misha@test.ru", password: hashSync("1234", 10), role: "USER" },
+        { fullName: "Admin", email: "admin@test.ru", password: hashSync("1234", 10), role: "ADMIN" },
       ],
     });
   });

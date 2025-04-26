@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/shared/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/shared/components/ui/sheet";
 import { Filters } from "./filters";
 import { Button } from "@/shared/components/ui/button";
 import { Filter } from "lucide-react";
@@ -15,15 +15,19 @@ export const AdaptiveFilters: React.FC = () => {
       <div className="md:hidden flex justify-end">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTitle hidden={true} />
+        <SheetDescription hidden={true} />
           <SheetTrigger asChild>
             <Button variant="outline" className="flex items-center gap-2">
               <Filter size={16} />
               Фильтры
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-[300px]">
-            <Filters className="p-4" />
+          <SheetContent side="right" className="w-full max-w-[300px] flex flex-col">
+            <div className="flex-1 overflow-auto p-4">
+              <Filters />
+            </div>
           </SheetContent>
+
         </Sheet>
       </div>
 

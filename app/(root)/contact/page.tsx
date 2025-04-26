@@ -2,7 +2,7 @@ import React from 'react';
 import { Title } from '@/shared/components'; // Кнопки из shadcn/ui или Radix
 import Image from 'next/image';
 
-export default async function HomePage() {
+export default function ContactPage() {
   return (
     <div className="container mx-auto px-6 py-8 md:py-8">
       {/* Заголовок */}

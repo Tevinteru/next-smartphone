@@ -25,7 +25,7 @@ export const ProductCard: React.FC<Props> = ({ id, name, price, imageUrl, classN
             height={175}
             alt="Товар"
             className="object-contain w-full h-full"
-            priority={false}
+            priority={true}
 
           />
         </div>

@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-
 import { Input } from "@/shared/components/ui/input";
 import { Title } from "./title";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
-import { useQueryFilters, useFilters, useBrands } from "@/shared/hooks";
+import { useFilters, useBrands } from "@/shared/hooks";
 import { Button } from "../ui";
 
 interface Props {
@@ -16,20 +15,15 @@ export const Filters: React.FC<Props> = ({ className }) => {
   const { brands, loading } = useBrands();
   const filters = useFilters();
 
-  useQueryFilters(filters);
-
   const items = brands.map((item) => ({
     value: String(item.id),
     text: item.name,
   }));
-  
+
   return (
     <div className={className}>
-      <Title
-        text="Фильтрация"
-        size="md"
-        className="mb-5 font-bold pb-4 border-b border-b-neutral-100"
-      />
+      <Title text="Фильтрация" size="md" className="mb-5 font-bold pb-4 border-b border-b-neutral-100" />
+
       <div>
         <p className="font-bold mb-3">Цена от и до:</p>
         <div className="flex gap-3 mb-5">
@@ -38,39 +32,36 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="0"
             min={0}
             max={300000}
-            value={String(filters.prices.priceFrom)}
-            onChange={(e) =>
-              filters.setPrices("priceFrom", Number(e.target.value))
-            }
+            value={filters.prices.priceFrom !== undefined ? String(filters.prices.priceFrom) : ""}
+            onChange={(e) => filters.setPrices("priceFrom", Number(e.target.value))}
           />
           <Input
             type="number"
             min={100}
             max={300000}
             placeholder="20000"
-            value={String(filters.prices.priceTo)}
-            onChange={(e) =>
-              filters.setPrices("priceTo", Number(e.target.value))
-            }
+            value={filters.prices.priceTo !== undefined ? String(filters.prices.priceTo) : ""}
+            onChange={(e) => filters.setPrices("priceTo", Number(e.target.value))}
           />
         </div>
       </div>
+
       <CheckboxFiltersGroup
         title="Бренды"
         name="brands"
         className="mt-5"
+        limit={4}
+        defaultItems={items.slice(0, 4)}
         items={items}
-        defaultItems={items.slice(0, 3)}
-        limit={3}
-        loading={loading}
-        onClickCheckbox={filters.setSelectedBrands}
         selected={filters.selectedBrands}
+        onClickCheckbox={filters.setSelectedBrands}
+        loading={loading}
       />
+
       <CheckboxFiltersGroup
         title="Оперативная память"
         name="ram"
         className="mt-5"
-        limit={6}
         selected={filters.ram}
         onClickCheckbox={filters.setRam}
         items={[
@@ -81,12 +72,11 @@ export const Filters: React.FC<Props> = ({ className }) => {
           { text: "12 гб", value: "12" },
         ]}
       />
-       {/* Фильтрация по встроенной памяти */}
-       <CheckboxFiltersGroup
+
+      <CheckboxFiltersGroup
         title="Встроенная память"
         name="storage"
         className="mt-5"
-        limit={6}
         selected={filters.storage}
         onClickCheckbox={filters.setStorage}
         items={[
@@ -98,12 +88,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
         ]}
       />
 
-      {/* Кнопка сброса фильтров */}
-      <Button
-        onClick={filters.resetFilters}
-        className="mt-5"
-      >
-      Сбросить фильтры
+      <Button onClick={filters.resetFilters} className="mt-5">
+        Сбросить фильтры
       </Button>
     </div>
   );

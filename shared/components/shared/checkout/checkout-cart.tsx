@@ -24,19 +24,23 @@ export const CheckoutCart: React.FC<Props> = ({
       <div className="flex flex-col gap-5">
         {loading
           ? [...Array(3)].map((_, index) => <CheckoutItemSkeleton key={index} />)
-          : items.map((item) => (
-              <CheckoutItem
-                key={item.id}
-                id={item.id}
-                imageUrl={item.imageUrl}
-                name={item.name}
-                price={item.price}
-                quantity={item.quantity}
-                disabled={item.disabled}
-                onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
-                onClickRemove={() => removeCartItem(item.id)}
-              />
-            ))}
+          : items.length === 0 ? (
+              <p className="text-lg text-center m-5 text-gray-500">Корзина пуста</p> // Если товаров нет, отображаем сообщение
+            ) : (
+              items.map((item) => (
+                <CheckoutItem
+                  key={item.id}
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  disabled={item.disabled}
+                  onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                  onClickRemove={() => removeCartItem(item.id)}
+                />
+              ))
+            )}
       </div>
     </WhiteBlock>
   );

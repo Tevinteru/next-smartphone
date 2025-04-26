@@ -41,9 +41,9 @@ export default function HomePage() {
         <Image
           src="/images/site/hero-banner.jpg"
           alt="Фоновый баннер"
-          layout="fill"
-          objectFit="cover"
-          className="absolute inset-0 z-0"
+          fill
+          priority={true}
+          className="absolute inset-0 z-0 object-cover"
         />
         <div className="relative z-10 flex flex-col items-start justify-center md:pl-48">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
@@ -77,6 +77,8 @@ export default function HomePage() {
                 <Image
                   src={product.image}
                   alt={product.name}
+                  width={400}
+                  height={400}
                   className="object-contain w-full h-full"
                 />
               </div>

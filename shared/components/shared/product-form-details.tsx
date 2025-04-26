@@ -53,7 +53,7 @@ export const ProductFormDetails: React.FC<Props> = ({
           <h1 className="text-xl font-extrabold text-gray-900 mb-6">
             {price} ₽
           </h1>
-
+          
           {/* Кнопка добавления */}
           <Button
             loading={loading}

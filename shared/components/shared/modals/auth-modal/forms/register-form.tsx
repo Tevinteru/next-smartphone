@@ -48,7 +48,7 @@ export const RegisterForm: React.FC<Props> = ({ onClose, onClickLogin }) => {
     <FormProvider {...form}>
       <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex flex-col items-center">
-          <Title text="Вход" size="md" className="font-bold" />
+          <Title text="Регистрация" size="md" className="font-bold" />
         </div>
         
         <FormInput name="email" label="E-Mail" required />

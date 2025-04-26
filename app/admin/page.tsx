@@ -68,7 +68,7 @@ export default function AdminPage() {
             {latestOrders.map((order) => (
               <tr key={order.id}>
                 <td>#{order.id.toString().slice(0, 6)}</td>
-                <td>{order.user.fullName}</td>
+                <td>{order.user ? order.user.fullName : "Неизвестный пользователь"}</td>
                 <td>{order.totalAmount} ₽</td>
                 <td>{order.status}</td>
                 <td>{order.createdAt}</td>

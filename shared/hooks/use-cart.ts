@@ -1,4 +1,3 @@
-import debounce from 'lodash.debounce';
 import { useCartStore } from '@/shared/store/cart';
 import React from 'react';
 import { CreateCartItemValues } from '@/shared/services/dto/cart';
