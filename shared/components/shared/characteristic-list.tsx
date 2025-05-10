@@ -21,7 +21,7 @@ export const CharacteristicsList: React.FC<Props> = ({ characteristics }) => {
     <div className="flex">
 
       {/* Правая колонка с характеристиками */}
-      <div className="w-3/4">
+      <div>
         {Object.keys(groupedCharacteristics).map((categoryName) => {
           const categoryItems = groupedCharacteristics[categoryName];
           const [isExpanded, setIsExpanded] = useState(false);

@@ -1,9 +1,10 @@
 import React from 'react';
-import { WhiteBlock } from './white-block';
+import { WhiteBlock } from '../white-block';
 import { CheckoutItemDetails } from './checkout-item-details';
-import { ArrowRight, Package, Percent, Truck } from 'lucide-react';
-import { Button, Skeleton } from '../ui';
+import { ArrowRight, Package, Truck, LogIn } from 'lucide-react';
+import { Button, Skeleton } from '../../ui';
 import { cn } from '@/shared/lib/utils';
+import { useSession } from 'next-auth/react';
 
 const DELIVERY_PRICE = 250;
 
@@ -14,7 +15,9 @@ interface Props {
 }
 
 export const CheckoutSidebar: React.FC<Props> = ({ totalAmount, loading, className }) => {
+  const { data: session } = useSession();
   const totalPrice = totalAmount + DELIVERY_PRICE;
+  const isAuthenticated = !!session;
 
   return (
     <WhiteBlock className={cn('p-6 sticky top-4', className)}>
@@ -46,14 +49,29 @@ export const CheckoutSidebar: React.FC<Props> = ({ totalAmount, loading, classNa
         }
         value={loading ? <Skeleton className="h-6 w-16 rounded-[6px]" /> : `${DELIVERY_PRICE} ₽`}
       />
+      <div className='flex pt-4 justify-center'>
+        {isAuthenticated ? (
+          <Button
+          loading={loading}
+          variant="default"
+          type="submit"
+          className="text-lg h-14 w-full rounded-md px-6"
+          >
+            Оформить заказ
+            <ArrowRight size={18} className="ml-2" />
+          </Button>
+        ) : (
+          <Button
+          variant="default"
+          type="button"
+          className="text-sm h-14 w-full rounded-md px-6"
+          >
+              Авторизуйтесь, чтобы оформить заказ
+            <LogIn size={18} className="ml-2" />
+          </Button>
+        )}
+      </div>
 
-      <Button
-        loading={loading}
-        type="submit"
-        className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
-        Оформить заказ
-        <ArrowRight className="w-5 ml-2" />
-      </Button>
     </WhiteBlock>
   );
 };

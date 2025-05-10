@@ -7,8 +7,6 @@ export async function GET() {
   const users = await prisma.user.findMany({
     include: {
       orders: true, // Если нужно вернуть информацию о заказах
-      cart: true,   // Если нужно вернуть корзину
-      cartItems: true, // Если нужно вернуть элементы корзины
     },
   });
 

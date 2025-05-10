@@ -1,8 +1,8 @@
 import React from 'react';
 import { WhiteBlock } from '../white-block';
-import { CheckoutItem } from '../checkout-item';
+import { CheckoutItem } from './checkout-item';
 import { CartStateItem } from '@/shared/lib/get-cart-details';
-import { CheckoutItemSkeleton } from '../checkout-item-skeleton';
+import { CheckoutItemSkeleton } from './checkout-item-skeleton';
 
 interface Props {
   items: CartStateItem[];

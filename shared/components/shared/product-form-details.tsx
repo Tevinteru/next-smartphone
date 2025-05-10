@@ -29,7 +29,7 @@ export const ProductFormDetails: React.FC<Props> = ({
   loading,
 }) => {
   return (
-    <div className={cn(className, "flex flex-1 flex-col")}>
+    <div className={cn(className, "flex flex-1 flex-col pb-8")}>
       {/* Верхняя часть: фото и описание */}
       <div className="flex flex-col md:flex-row items-start h-[400px] gap-8 mb-4 rounded-lg shadow-2xl bg-white">
         {/* Картинка продукта */}
@@ -66,7 +66,7 @@ export const ProductFormDetails: React.FC<Props> = ({
       </div>
 
       {/* Список характеристик */}
-      <div className="w-full bg-gray-50 p-5 rounded-lg shadow-sm bg-white">
+      <div className="bg-gray-50 px-20 pt-8 pb-4 rounded-lg shadow-2xl bg-white">
         <h2 className="text-2xl font-extrabold mb-4">
           Характеристики
         </h2>

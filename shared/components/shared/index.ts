@@ -13,10 +13,6 @@ export { CharacteristicsList } from './characteristic-list'
 export { WhiteBlock } from './white-block'
 export { CartButton } from './cart-button';
 export { ProductForm } from './product-form';
-export { CheckoutItemDetails } from './checkout-item-details';
-export { CheckoutItem } from './checkout-item';
-export { CheckoutItemSkeleton } from './checkout-item-skeleton';
-export { CheckoutSidebar } from './checkout-sidebar';
 export { ErrorText } from './error-text';
 export { RequiredSymbol } from './required-symbol';
 export { ClearButton } from './clear-button';
@@ -27,6 +23,7 @@ export { Pagination } from './pagination';
 export { AdaptiveFilters } from './adaptive-filters';
 export { MobileMenu } from './mobile-menu';
 export { ProductFormDetails } from './product-form-details';
+export { AuthProtectedForm } from './auth-protected-form';
 
 export * from './checkout';
 export * from './form';

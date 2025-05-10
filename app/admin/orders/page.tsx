@@ -31,7 +31,7 @@ export default function OrdersPage() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Пользователь</TableHead>
+            <TableHead>ID Пользователя</TableHead>
             <TableHead>Статус</TableHead>
             <TableHead>Сумма</TableHead>
             <TableHead>Действия</TableHead>
@@ -45,8 +45,6 @@ export default function OrdersPage() {
               <TableCell>{order.userId ?? 'Гость'}</TableCell>
               
               <TableCell>
-                <Label className="block md:text-lg font-medium text-gray-700 mb-2">
-                  Статус:
                   <Select
                     value={String(order.status)} // Преобразуем в строку
                     onValueChange={(value) => updateOrder(order.id, value as 'PENDING' | 'SUCCEEDED' | 'CANCELLED')}
@@ -60,21 +58,11 @@ export default function OrdersPage() {
                       <SelectItem value="CANCELLED">Отменен</SelectItem>
                     </SelectContent>
                   </Select>
-                </Label>
               </TableCell>
 
               <TableCell>{order.totalAmount} ₽</TableCell>
               <TableCell>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const status = order.status ?? 'PENDING'; // Если status undefined, установим дефолтное значение
-                      updateOrder(order.id, status as 'PENDING' | 'SUCCEEDED' | 'CANCELLED');
-                    }}>
-                    📝
-                  </Button>
+                <div className="pl-6">
                   <Button
                     variant="destructive"
                     size="sm"

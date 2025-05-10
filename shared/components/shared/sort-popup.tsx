@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
 import { cn } from "@/shared/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/popover";
+import { useFilters } from "@/shared/hooks";
 
 interface Props {
   className?: string;
@@ -17,20 +17,9 @@ const sortOptions = [
 ];
 
 export const SortPopup: React.FC<Props> = ({ className }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const filters = useFilters();
 
-  // Получаем текущую сортировку из URL
-  const currentSort = searchParams.get("sort") || "name";
-
-  // Обновляем URL при выборе сортировки
-  const handleSortChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", value);
-    router.push(`?${params.toString()}`);
-  };
-
-  const currentSortLabel = sortOptions.find((opt) => opt.value === currentSort)?.label || "По алфавиту";
+  const currentSortLabel = sortOptions.find(opt => opt.value === filters.sort)?.label || "По алфавиту";
 
   return (
     <Popover>
@@ -46,18 +35,18 @@ export const SortPopup: React.FC<Props> = ({ className }) => {
           <b className="text-primary">{currentSortLabel}</b>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[240px]">
+      <PopoverContent className="w-[240px] p-2 bg-white shadow-md rounded-md">
         <ul>
           {sortOptions.map((option) => (
             <li
               key={option.value}
               className={cn(
                 "p-2 px-4 cursor-pointer rounded-md",
-                currentSort === option.value 
+                filters.sort === option.value 
                   ? "bg-primary text-white" 
                   : "hover:bg-secondary hover:text-primary"
               )}
-              onClick={() => handleSortChange(option.value)}
+              onClick={() => filters.setSort(option.value)}
             >
               {option.label}
             </li>

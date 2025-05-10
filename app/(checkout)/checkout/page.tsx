@@ -3,7 +3,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-
 import {
   CheckoutSidebar,
   Container,
@@ -19,6 +18,7 @@ import toast from 'react-hot-toast';
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { Api } from '@/shared/services/api-client';
+import { AuthProtectedForm } from '@/shared/components';
 
 export default function CheckoutPage() {
   const [submitting, setSubmitting] = React.useState(false);
@@ -55,7 +55,6 @@ export default function CheckoutPage() {
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
-      // Проверяем, авторизован ли пользователь
       if (!session) {
         toast.error('Для оформления заказа необходимо авторизоваться', {
           icon: '🔒',
@@ -67,13 +66,11 @@ export default function CheckoutPage() {
       const success = await createOrder(data);
 
       if (success) {
-        toast.error('Заказ успешно оформлен!', {
+        toast.success('Заказ успешно оформлен!', {
           icon: '✅',
         });
         router.push('/catalog');
-
       }
-
     } catch (err) {
       console.log(err);
       setSubmitting(false);
@@ -104,14 +101,21 @@ export default function CheckoutPage() {
                 loading={loading}
               />
 
-              <CheckoutPersonalForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
+              <AuthProtectedForm>
+                <CheckoutPersonalForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
+              </AuthProtectedForm>
 
-              <CheckoutAddressForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
+              <AuthProtectedForm>
+                <CheckoutAddressForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
+              </AuthProtectedForm>
             </div>
 
             {/* Правая часть */}
             <div className="w-full md:w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
+              <CheckoutSidebar 
+                totalAmount={totalAmount} 
+                loading={loading || submitting} 
+              />
             </div>
           </div>
         </form>
