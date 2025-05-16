@@ -160,9 +160,9 @@ export default function EditProductPage() {
           {imageUrl && <Image
                src={imageUrl}
                alt="Превью"
-               width={32}  // Указываем ширину
-               height={32} // Указываем высоту
-               className="mt-2 object-cover rounded-lg"
+               width={100}
+               height={100}
+               className="mt-2 object-cover"
             />}
         </div>
   

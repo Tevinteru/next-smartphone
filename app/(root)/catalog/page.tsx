@@ -13,13 +13,13 @@ export default async function Catalog({
 
   return (
     <>
-      <Container className="mt-6 md:mt-10 pb-6 md:pb-14">
+      <Container className="mt-6 md:mt-6 pb-6 md:pb-14">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-[80px]">
-          {/* Фильтраиця */}
+          {/* Фильтрация */}
           <div className="w-full md:w-[250px] px-2 md:px-4">
-            <div className="sticky top-4"> {/* Добавлен sticky-контейнер */}
+            <div className="sticky top-4 h-fit"> {/* Добавлен sticky-контейнер */}
             <Suspense>
-              <AdaptiveFilters  />
+              <AdaptiveFilters />
             </Suspense>
             </div>
           </div>

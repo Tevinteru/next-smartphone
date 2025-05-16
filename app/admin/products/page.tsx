@@ -11,6 +11,7 @@ interface Product {
   id: number;
   name: string;
   price: number;
+  imageUrl: string;
 }
 
 export default function ProductsPage() {
@@ -32,6 +33,7 @@ export default function ProductsPage() {
             <TableHead>ID</TableHead>
             <TableHead>Название</TableHead>
             <TableHead>Цена</TableHead>
+            <TableHead>Изображение</TableHead>
             <TableHead>Действия</TableHead>
           </TableRow>
         </TableHeader>
@@ -41,6 +43,10 @@ export default function ProductsPage() {
               <TableCell>{product.id}</TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.price} ₽</TableCell>
+              <TableCell>
+                <img src={product.imageUrl} alt="Превью" width={100} height={100} className="mt-2 object-cover" />
+              </TableCell>
+         
               <TableCell>
                 <div className='flex gap-2'>
                   <Link href={`/admin/products/edit/${product.id}`}>

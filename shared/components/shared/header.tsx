@@ -8,6 +8,7 @@ import { Container, CartButton, AuthModal, ProfileButton, Title } from "./index"
 import { ShoppingBag, Info, SquareUserRound, Menu } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { MobileMenu } from "./mobile-menu"; // Подключаем новый компонент
+import { useSession } from "next-auth/react";
 
 interface Props {
   hasCart?: boolean;
@@ -17,7 +18,8 @@ interface Props {
 export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "ADMIN";
   return (
     <header className={cn("border-b", className)}>
       <Container className="flex items-center justify-between py-6 md:py-6 px-2 md:px-4">
@@ -41,6 +43,12 @@ export const Header: React.FC<Props> = ({ className, hasCart = true }) => {
               <SquareUserRound size={18} />
               О нас
             </Link>
+            {/* Админ-панель */}
+             {isAdmin && (
+              <Link href="/admin" className="flex items-center gap-2 text-lg text-gray-700 hover:text-primary font-semibold">
+                Админ-Панель
+              </Link>
+            )}
           </div>
         </div>
 

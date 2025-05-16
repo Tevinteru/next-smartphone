@@ -24,6 +24,8 @@ export { AdaptiveFilters } from './adaptive-filters';
 export { MobileMenu } from './mobile-menu';
 export { ProductFormDetails } from './product-form-details';
 export { AuthProtectedForm } from './auth-protected-form';
+export { OrdersList } from './orders-list';
+export { Footer } from './footer';
 
 export * from './checkout';
 export * from './form';

@@ -5,7 +5,6 @@ import { useOrderStore } from '@/shared/store/admin/order';
 import { Button } from '@/shared/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table';
 import { Select, SelectTrigger, SelectContent, SelectItem } from '@/shared/components/ui/select'; // Импортируем компоненты Select
-import { Label } from '@/shared/components/ui';
 import { Title } from '@/shared/components';
 
 type OrderType = {

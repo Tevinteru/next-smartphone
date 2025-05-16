@@ -1,6 +1,6 @@
-import { Header } from '@/shared/components/shared';
-import type { Metadata } from 'next';
+import { Footer, Header } from '@/shared/components/shared';
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Next Smartphone',
@@ -8,15 +8,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <main className="min-h-screen">
+    // Этот div обеспечит липкий футер
+    <div className="flex flex-col min-h-screen">
       <Suspense>
         <Header />
       </Suspense>
-      {children}
-    </main>
+
+      {/* Контент займет всё оставшееся место */}
+      <main className="flex-1">
+        {children}
+      </main>
+
+      <Footer />
+    </div>
   );
 }
