@@ -16,7 +16,8 @@ model User {
   role     UserRole @default(USER)
 
   orders    Order[]
-
+  cart      Cart?
+  cartItems CartItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,12 +74,13 @@ model SmartphoneCharacteristic {
 
 model Cart {
   id     Int   @id @default(autoincrement())
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int?  @unique
 
   token String
 
   totalAmount Float      @default(0)
   items       CartItem[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -96,6 +98,8 @@ model CartItem {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int?
 }
 
 model Order {
