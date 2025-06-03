@@ -9,4 +9,6 @@ export { RangeSlider } from './range-slider';
 export { Slider } from './slider';
 export { Table } from './table';
 export { Textarea } from './textarea';
+export { Card } from './card';
+export { Separator } from './separator';
 export { Skeleton } from './skeleton';

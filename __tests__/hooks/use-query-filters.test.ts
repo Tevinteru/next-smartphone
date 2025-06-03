@@ -2,25 +2,33 @@ import { renderHook } from '@testing-library/react';
 import { useQueryFilters } from '@/shared/hooks/use-query-filters';
 import { vi } from 'vitest';
 
-const push = vi.fn(); // сохраняем функцию push в переменную
+const push = vi.fn();
 
 vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push }), // используем сохранённый push
+  useRouter: () => ({ push }),
   useSearchParams: () => new URLSearchParams(),
 }));
 
-vi.mock('qs', async () => {
-  const actual = await vi.importActual<typeof import('qs')>('qs');
-  return {
-    ...actual,
-    default: actual,
-    stringify: vi.fn(() => 'sort=price_asc'),
-  };
-});
+vi.mock('qs', () => ({
+  stringify: vi.fn((params) => {
+    if (params.sort) {
+      return `sort=${params.sort}`;
+    }
+    return '';
+  }),
+  default: {
+    stringify: vi.fn((params) => {
+      if (params.sort) {
+        return `sort=${params.sort}`;
+      }
+      return '';
+    }),
+  },
+}));
 
 describe('useQueryFilters', () => {
   beforeEach(() => {
-    push.mockClear(); // очищаем push перед каждым тестом
+    push.mockClear();
   });
 
   it('вызывает router.push при изменении фильтров (не при первом рендеринге)', () => {
@@ -41,6 +49,6 @@ describe('useQueryFilters', () => {
 
     rerender({ filters: { ...filters, sort: 'name' }, isResetting: false });
 
-    expect(push).toHaveBeenCalledWith('?sort=price_asc', { scroll: false });
+    expect(push).toHaveBeenCalledWith('?sort=name', { scroll: false });
   });
 });

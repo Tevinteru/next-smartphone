@@ -2,7 +2,7 @@
 
 import { cn } from "@/shared/lib/utils";
 import React from "react";
-import { Button } from "../ui";
+import { Button } from "../ui/button";
 import { SmartphoneCharacteristic } from "@prisma/client";
 import { Title } from "./title";
 import { CharacteristicsList } from "./characteristic-list";
@@ -29,49 +29,42 @@ export const ProductFormDetails: React.FC<Props> = ({
   loading,
 }) => {
   return (
-    <div className={cn(className, "flex flex-1 flex-col pb-8")}>
-      {/* Верхняя часть: фото и описание */}
-      <div className="flex flex-col md:flex-row items-start h-[400px] gap-8 mb-4 rounded-lg shadow-2xl bg-white">
-        {/* Картинка продукта */}
-        <div className="flex-shrink-0 w-[500px] flex justify-center">
+    <div className={cn(className, "flex flex-col gap-10 pb-16")}>
+      {/* Основной блок */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 bg-white rounded-2xl shadow-xl">
+        {/* Фото */}
+        <div className="flex justify-center items-center">
           <img
             src={imageUrl}
             alt={name}
-            className="max-w-full p-8 max-h-[400px] object-cover"
+            className="w-full max-w-[250px] md:max-w-[400px] h-auto object-contain rounded-xl"
           />
         </div>
 
-        {/* Информация о продукте */}
-        <div className="w-full h-full p-8">
-          {/* Название продукта */}
-          <Title text={name} size="lg" className="font-extrabold mb-4" />
+        {/* Инфо о продукте */}
+        <div className="flex flex-col justify-start space-y-5">
+          <Title text={name} size="xl" className="font-bold" />
 
-          {/* Краткое описание */}
-          {description && <p className="text-gray-500 mb-6">{description}</p>}
+          <div className="text-3xl font-extrabold text-primary">{price} ₽</div>
 
-          {/* Цена */}
-          <h1 className="text-xl font-extrabold text-gray-900 mb-6">
-            {price} ₽
-          </h1>
-          
-          {/* Кнопка добавления */}
           <Button
             loading={loading}
-            className="h-[55px] px-10 text-base rounded-[18px]"
+            className="h-[50px] w-full text-lg rounded-xl"
             onClick={onSubmit}
           >
             Добавить в корзину
           </Button>
+
+          {description && (
+            <p className="text-gray-600 text-base leading-relaxed pt-2 border-t mt-4">
+              {description}
+            </p>
+          )}
         </div>
       </div>
 
-      {/* Список характеристик */}
-      <div className="bg-gray-50 px-20 pt-8 pb-4 rounded-lg shadow-2xl bg-white">
-        <h2 className="text-2xl font-extrabold mb-4">
-          Характеристики
-        </h2>
-        <CharacteristicsList characteristics={characteristics}/>
-      </div>
+      {/* Характеристики */}
+      <CharacteristicsList characteristics={characteristics} />
     </div>
   );
 };

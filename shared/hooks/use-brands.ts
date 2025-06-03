@@ -1,17 +1,21 @@
 import { Api } from "@/shared/services/api-client";
 import { Brand } from "@prisma/client";
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useBrands = () => {
-  const [brands, setBrands] = React.useState<Brand[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(true);
+  const hasFetched = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (hasFetched.current) return;
+
     async function fetchBrands() {
       try {
         setLoading(true);
         const brands = await Api.brands.getAll();
         setBrands(brands);
+        hasFetched.current = true;
       } catch (error) {
         console.log(error);
       } finally {

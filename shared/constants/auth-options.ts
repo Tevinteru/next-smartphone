@@ -1,9 +1,9 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
 import { prisma } from '@/prisma/prisma-client';
 import { compare, hashSync } from 'bcrypt';
 import { UserRole } from '@prisma/client';
+import logger from '@/shared/lib/logger'; // 👈 импортируем логгер
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -15,26 +15,27 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials) {
+          logger.warn('[AUTH_LOGIN] Нет учетных данных');
           return null;
         }
 
-        const values = {
-          email: credentials.email,
-        };
+        const values = { email: credentials.email };
 
-        const findUser = await prisma.user.findFirst({
-          where: values,
-        });
+        const findUser = await prisma.user.findFirst({ where: values });
 
         if (!findUser) {
+          logger.warn(`[AUTH_LOGIN] Пользователь не найден: ${credentials.email}`);
           return null;
         }
 
         const isPasswordValid = await compare(credentials.password, findUser.password);
 
         if (!isPasswordValid) {
+          logger.warn(`[AUTH_LOGIN] Неверный пароль: ${credentials.email}`);
           return null;
         }
+
+        logger.info(`[AUTH_LOGIN] Успешный вход: ${credentials.email}`);
 
         return {
           id: findUser.id,
@@ -57,27 +58,24 @@ export const authOptions: AuthOptions = {
         }
 
         if (!user.email) {
+          logger.warn(`[AUTH_SIGNIN] Нет email у пользователя`);
           return false;
         }
+
         const findUser = await prisma.user.findFirst({
-          where: {
-            OR: [
-              { email: user.email },
-            ],
-          },
+          where: { email: user.email },
         });
 
         if (findUser) {
           await prisma.user.update({
-            where: {
-              id: findUser.id,
-            },
-            data: {
-            },
+            where: { id: findUser.id },
+            data: {},
           });
 
+          logger.info(`[AUTH_SIGNIN] Пользователь найден и обновлён: ${user.email}`);
           return true;
         }
+
         await prisma.user.create({
           data: {
             email: user.email,
@@ -86,21 +84,19 @@ export const authOptions: AuthOptions = {
           },
         });
 
+        logger.info(`[AUTH_SIGNIN] Новый пользователь создан: ${user.email}`);
         return true;
       } catch (error) {
-        console.error('Error [SIGNIN]', error);
+        logger.error(`[AUTH_SIGNIN] Ошибка входа: ${error instanceof Error ? error.message : error}`);
         return false;
       }
     },
+
     async jwt({ token }) {
-      if (!token.email) {
-        return token;
-      }
+      if (!token.email) return token;
 
       const findUser = await prisma.user.findFirst({
-        where: {
-          email: token.email,
-        },
+        where: { email: token.email },
       });
 
       if (findUser) {
@@ -112,6 +108,7 @@ export const authOptions: AuthOptions = {
 
       return token;
     },
+
     session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;

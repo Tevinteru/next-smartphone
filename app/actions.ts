@@ -6,6 +6,7 @@ import { getUserSession } from '@/shared/lib/get-user-session';
 import { OrderStatus, Prisma } from '@prisma/client';
 import { hashSync } from 'bcrypt';
 import { cookies } from 'next/headers';
+import logger from '@/shared/lib/logger';
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
@@ -15,7 +16,7 @@ export async function createOrder(data: CheckoutFormValues) {
     if (!cartToken) {
       throw new Error('Cart token not found');
     }
-    /* Находим корзину по токену */
+
     const userCart = await prisma.cart.findFirst({
       include: {
         user: true,
@@ -30,18 +31,16 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    /* Если корзина не найдена возращаем ошибку */
     if (!userCart) {
       throw new Error('Cart not found');
     }
 
-    /* Если корзина пустая возращаем ошибку */
     if (userCart?.totalAmount === 0) {
       throw new Error('Cart is empty');
     }
+
     const currentUser = await getUserSession();
 
-    /* Создаем заказ */
     await prisma.order.create({
       data: {
         userId: Number(currentUser?.id),
@@ -57,25 +56,20 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    /* Очищаем корзину */
     await prisma.cart.update({
-      where: {
-        id: userCart.id,
-      },
-      data: {
-        totalAmount: 0,
-      },
+      where: { id: userCart.id },
+      data: { totalAmount: 0 },
     });
 
     await prisma.cartItem.deleteMany({
-      where: {
-        cartId: userCart.id,
-      },
+      where: { cartId: userCart.id },
     });
 
+    logger.info(`Заказ создан. Email: ${data.email}, Сумма: ${userCart.totalAmount}`);
     return true;
 
   } catch (err) {
+    logger.error(`[CreateOrder] ${err}`);
     console.log('[CreateOrder] Server error', err);
   }
 }
@@ -95,27 +89,24 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
     });
 
     await prisma.user.update({
-      where: {
-        id: Number(currentUser.id),
-      },
+      where: { id: Number(currentUser.id) },
       data: {
         fullName: body.fullName,
         email: body.email,
         password: body.password ? hashSync(body.password as string, 10) : findUser?.password,
       },
     });
+
+    logger.info(`Пользователь обновлён: ${currentUser.id}`);
   } catch (err) {
-    console.log('Error [UPDATE_USER]', err);
-    throw err;
+    logger.error(`Error [UPDATE_USER]: ${err}`);
   }
 }
 
 export async function registerUser(body: Prisma.UserCreateInput) {
   try {
     const user = await prisma.user.findFirst({
-      where: {
-        email: body.email,
-      },
+      where: { email: body.email },
     });
 
     if (user) {
@@ -130,8 +121,8 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       },
     });
 
+    logger.info(`Зарегистрирован новый пользователь: ${body.email}`);
   } catch (err) {
-    console.log('Error [CREATE_USER]', err);
-    throw err;
+    logger.error(`Error [CREATE_USER]: ${err}`);
   }
 }

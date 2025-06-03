@@ -14,8 +14,8 @@ export const AdaptiveFilters: React.FC = () => {
       {/* Кнопка для открытия фильтров на мобильных устройствах */}
       <div className="md:hidden flex justify-end">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTitle hidden={true} />
-        <SheetDescription hidden={true} />
+          <SheetTitle hidden />
+          <SheetDescription hidden />
           <SheetTrigger asChild>
             <Button variant="outline" className="flex items-center gap-2">
               <Filter size={16} />
@@ -24,10 +24,10 @@ export const AdaptiveFilters: React.FC = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-[300px] flex flex-col">
             <div className="flex-1 overflow-auto p-4">
-              <Filters />
+              {/* Только при открытии */}
+              {isOpen && <Filters />}
             </div>
           </SheetContent>
-
         </Sheet>
       </div>
 

@@ -158,7 +158,7 @@ export default function EditProductPage() {
             onChange={handleFileChange}
           />
           {imageUrl && <Image
-               src={imageUrl}
+               src={imageUrl || '/assets/images/smartphone-placeholder.png'}
                alt="Превью"
                width={100}
                height={100}

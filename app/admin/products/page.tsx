@@ -6,6 +6,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components/ui/table';
 import Link from 'next/link';
 import { Title } from '@/shared/components';
+import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -44,7 +45,7 @@ export default function ProductsPage() {
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.price} ₽</TableCell>
               <TableCell>
-                <img src={product.imageUrl} alt="Превью" width={100} height={100} className="mt-2 object-cover" />
+                <Image src={product.imageUrl || '/assets/images/smartphone-placeholder.png'} alt="Превью" width={100} height={100} className="mt-2 object-cover" />
               </TableCell>
          
               <TableCell>

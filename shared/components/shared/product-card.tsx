@@ -20,7 +20,7 @@ export const ProductCard: React.FC<Props> = ({ id, name, price, imageUrl, classN
         {/* Контейнер для изображения с серым фоном и отступами */}
         <div className="relative bg-secondary rounded-t-lg h-[200px] md:h-[260px] flex items-center justify-center p-4">
           <Image
-            src={imageUrl}
+            src={imageUrl || '/assets/images/smartphone-placeholder.png'}
             width={175}
             height={175}
             alt="Товар"

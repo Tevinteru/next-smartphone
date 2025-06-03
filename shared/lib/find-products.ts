@@ -69,27 +69,25 @@ export const findProducts = async (params: GetSearchParams) => {
       },
       price: priceFilter, // Применяем фильтрацию по цене
       brandId: brandsArr?.length ? { in: brandsArr } : undefined, // Фильтрация по брендам
-      smartphoneCharacteristics: {
-        some: {
-          // Фильтрация по характеристикам только если указаны параметры
-          ...(ramArr?.length && {
-            OR: [
-              {
-                characteristic: "Оперативная память",
-                value: { in: ramArr },
-              },
-            ],
-          }),
-          ...(storageArr?.length && {
-            OR: [
-              {
-                characteristic: "Встроенная память",
-                value: { in: storageArr },
-              },
-            ],
-          }),
-        },
-      },
+      AND: [
+        ramArr?.length ? {
+          smartphoneCharacteristics: {
+            some: {
+              characteristic: "Оперативная память",
+              value: { in: ramArr },
+            }
+          }
+        } : {},
+
+        storageArr?.length ? {
+          smartphoneCharacteristics: {
+            some: {
+              characteristic: "Встроенная память",
+              value: { in: storageArr },
+            }
+          }
+        } : {},
+      ],
     },
     include: {
       brand: true,

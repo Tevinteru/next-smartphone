@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, Smartphone, Users, Settings, LogOut, Tag, ListOrdered, Package, FileText } from 'lucide-react';
+import { Home, Smartphone, Users, Settings, LogOut, Tag, ListOrdered, Package, FileText, ScrollText } from 'lucide-react';
 
 export const AdminSidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
@@ -83,6 +83,15 @@ export const AdminSidebar = () => {
               >
                 <FileText className="w-5 h-5 mr-3" />
                 Характеристики
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/admin/logs"
+                className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors duration-200"
+              >
+                <ScrollText className="w-5 h-5 mr-3" />
+                Логи
               </Link>
             </li>
           </ul>

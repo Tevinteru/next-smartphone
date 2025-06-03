@@ -35,7 +35,7 @@ export const ProductForm: React.FC<Props> = ({
 
   return (
     <ProductFormDetails
-      imageUrl={product.imageUrl}
+      imageUrl={product.imageUrl || '/assets/images/smartphone-placeholder.png'}
       name={product.name}
       onSubmit={handleSubmit}
       characteristics={product.smartphoneCharacteristics}

@@ -63,7 +63,9 @@ export const useFilters = (): ReturnProps => {
         }
       }
     }
-
+    if (!("page" in newParams)) {
+      params.set("page", "1");
+    }
     router.push(`?${params.toString()}`, { scroll: false });
   };
 

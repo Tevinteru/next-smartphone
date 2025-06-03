@@ -146,7 +146,7 @@ export default function CreateProductPage() {
           <Label className="text-lg">Изображение</Label>
           <Input className="text-lg md:text-lg" type="file" accept="image/*" onChange={handleFileChange} />
           {imageUrl && (
-            <Image src={imageUrl} alt="Превью" width={128} height={128} className="mt-2 object-cover" />
+            <Image src={imageUrl || '/assets/images/smartphone-placeholder.png'} alt="Превью" width={128} height={128} className="mt-2 object-cover" />
           )}
         </div>
 

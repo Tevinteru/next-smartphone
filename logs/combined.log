@@ -1,0 +1,8 @@
+[2025-06-03T07:48:43.025Z] INFO: Зарегистрирован новый пользователь: alecksey1231@mail.ru
+[2025-06-03T07:48:55.342Z] INFO: [AUTH_LOGIN] Успешный вход: alecksey1231@mail.ru
+[2025-06-03T07:48:55.342Z] INFO: [AUTH_SIGNIN] Вход через credentials: alecksey1231@mail.ru
+[2025-06-03T07:49:29.669Z] INFO: [CART_POST] Добавление товара. CartID: 1, ProductID: 62
+[2025-06-03T07:49:30.059Z] INFO: [CART_POST] Увеличено количество товара. CartItemID: 16, NewQuantity: 3
+[2025-06-03T07:49:31.194Z] INFO: [CART_POST] Корзина обновлена. Token: 2b6913e0-2170-4981-bd6a-43ea3d5c9f68, TotalAmount: 42537
+[2025-06-03T07:49:42.420Z] INFO: Заказ создан. Email: alecksey1231@mail.ru, Сумма: 42537
+[2025-06-03T08:58:49.382Z] INFO: [AUTH_LOGIN] Успешный вход: admin@test.ru

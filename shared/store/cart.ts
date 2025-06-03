@@ -8,6 +8,7 @@ export interface CartState {
   error: boolean;
   totalAmount: number;
   items: CartStateItem[];
+  fetched: boolean;
 
   fetchCartItems: () => Promise<void>;
   updateItemQuantity: (id: number, quantity: number) => Promise<void>;
@@ -21,12 +22,15 @@ export const useCartStore = create<CartState>((set, get) => ({
   error: false,
   loading: false,
   totalAmount: 0,
+  fetched: false,
 
   fetchCartItems: async () => {
+    if (get().fetched) return;
+
     try {
       set({ loading: true, error: false });
       const data = await Api.cart.getCart();
-      set(getCartDetails(data));
+      set({ ...getCartDetails(data), fetched: true });
     } catch (error) {
       console.error(error);
       set({ error: true });

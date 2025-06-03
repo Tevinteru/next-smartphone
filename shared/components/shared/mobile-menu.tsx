@@ -37,7 +37,7 @@ export const MobileMenu: React.FC<Props> = ({ isOpen, onClose, hasCart, onSignIn
         <div className="flex items-center gap-2 text-lg font-medium text-gray-800 hover:text-primary py-2">
             {/* Кнопки профиля и корзины */}
             <ProfileButton onClickSignIn={onSignIn} />
-            {hasCart && <CartButton />}
+            {hasCart && isOpen && <CartButton />}
         </div>
 
         {/* Ссылки */}
